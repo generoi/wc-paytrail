@@ -1,0 +1,200 @@
+/**
+ * Payment methods for new API
+ */
+.wc-paytrail-ppa-methods-container {
+	.wc-paytrail-ppa-method-group {
+		margin-bottom: 10px;
+	}
+
+	.wc-paytrail-ppa-method-group-title {
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
+	.wc-paytrail-ppa-method {
+		background: #ffffff;
+		border: 1px solid #d5dfe0;
+		background-repeat: no-repeat;
+		background-position: center 10px;
+		cursor: pointer;
+		display: inline-block;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		width: 120px;
+		vertical-align: top;
+		text-align: center;
+
+		input[type="radio"] {
+			margin: 0 !important;
+		}
+
+		&.selected,
+		&:hover {
+			border-color: #7b9fa3;
+		}
+
+		.wc-paytrail-ppa-method-icon-container {
+			height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.wc-paytrail-ppa-method-icon {
+				flex: none;
+				display: block !important;
+				max-width: 100% !important;
+				max-height: 100% !important;
+				padding: 0 5px !important;
+				margin: 0 !important;
+			}
+		}
+	}
+
+	&.wc-paytrail-blocks {
+		.wc-paytrail-ppa-method-group {
+			margin-bottom: 20px;
+
+			.wc-paytrail-ppa-group-methods {
+				display: grid;
+				grid-template-columns: repeat( auto-fill, minmax(120px, 1fr) );
+				gap: 10px;
+
+				.wc-paytrail-ppa-method {
+					display: block;
+					width: 100%;
+					margin: 0;
+				}
+			}
+		}
+	}
+}
+
+.wc-paytrail-ppa-description {
+	margin-bottom: 10px;
+}
+
+.wc-paytrail-ppa-terms {
+	font-size: small;
+
+	&.wc-paytrail-ppa-terms-above {
+		margin-bottom: 10px;
+	}
+}
+
+/**
+ * Apple Pay
+ */
+/* Hide Apple Pay by default in checkout */
+.wc-paytrail-ppa-methods #wc-paytrail-ppa-method-group-applepay {
+	&.wc-paytrail-hide-ap {
+		display: none !important;
+	}
+}
+
+#paytrail-ppa-apple-pay-info {
+	margin-bottom: 1rem;
+}
+
+/* Button in the "Pay for order" page */ 
+#paytrail-ppa-apple-pay-container {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+
+	#paytrail-ppa-apple-pay-button {
+		flex: none;
+		display: none;
+		appearance: -apple-pay-button;
+		-webkit-appearance: -apple-pay-button;
+		-apple-pay-button-type: plain;
+		-apple-pay-button-style: white-outline;
+		height: 50px;
+		width: 100%;
+		max-width: 400px;
+		margin-bottom: 1em;
+	}
+}
+
+/**
+ * Tokens
+ */
+form#add_payment_method #payment .payment_methods .payment_method_paytrail_ppa .payment_box,
+.woocommerce-checkout #payment .payment_methods .payment_method_paytrail_ppa .payment_box {
+	.wc-paytrail-ppa-token-add-new {
+		margin-bottom: 10px;
+
+		a {
+			text-decoration: none;
+			padding: 8px;
+			line-height: 20px;
+			font-size: small;
+
+			span.dashicons {
+				font-size: small;
+				line-height: 20px;
+			}
+		}
+	}
+
+	.wc-paytrail-change-token-notice {
+		margin-top: 10px;
+		font-size: small;
+	}
+
+	ul.woocommerce-SavedPaymentMethods {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 10px;
+
+		li {
+			margin-left: 0;
+			padding: 0;
+			background: #ffffff;
+			border: 1px solid #d5dfe0;
+			padding: 5px 10px;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			cursor: pointer;
+			max-width: 300px;
+
+			&.selected,
+			&:hover {
+				border-color: #7b9fa3;
+			}
+
+			input[type="radio"] {
+				flex: none;
+				display: block;
+
+				&:focus {
+					outline: none;
+				}
+			}
+
+			img {
+				float: none;
+				display: block;
+				flex: none;
+			}
+
+			.wc-paytrail_ppa-payment-token-digits {
+				flex: auto;
+				display: block;
+				line-height: 26px;
+				
+				.wc-paytrail_ppa-payment-token-bullets {
+					font-size: 18px;
+					letter-spacing: 0.1rem;
+				}
+			}
+			
+			.wc-paytrail_ppa-payment-token-expiry {
+				line-height: 26px;
+				flex: none;
+				display: block;
+			}
+		}
+	}
+}

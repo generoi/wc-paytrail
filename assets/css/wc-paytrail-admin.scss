@@ -1,0 +1,65 @@
+/**
+ * Check credentials in the settings page
+ */
+
+.wc-paytrail-throbber {
+	display: inline-block;
+	width: auto;
+	height: 30px;
+	line-height: 30px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-left: 10px;
+	vertical-align: top;
+
+	&.processing {
+		background-image: url("../images/ajax-indicators/wpspin_light.gif");
+		width: 20px;
+	}
+
+	&.ok,
+	&.error {
+		.dashicons {
+			line-height: 30px;
+		}
+	}
+
+	&.ok {
+		color: #7ad03a;
+	}
+
+	&.error {
+		color: #a00;
+	}
+}
+
+
+/**
+ * Apple Pay verification file
+ */
+.wc-paytrail-ap-ver-file {
+	a.ver-file-link {
+		text-decoration: none;
+
+		.dashicons-external {
+			font-size: 14px;
+		}
+
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+	}
+
+	mark {
+		background: transparent !important;
+	}
+
+	mark.yes {
+		color: #7ad03a;
+	}
+
+	mark.error {
+		color: #a00;
+	}
+}

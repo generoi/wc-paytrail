@@ -1,0 +1,468 @@
+# Copyright (C) 2023 Lauri Karisola / Markup.fi
+# This file is distributed under the same license as the WooCommerce Paytrail plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Paytrail 2.4.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-paytrail\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-12-15T09:32:11+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.9.0\n"
+"X-Domain: wc-paytrail\n"
+
+#. Plugin Name of the plugin
+msgid "WooCommerce Paytrail"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://markup.fi"
+msgstr ""
+
+#. Description of the plugin
+msgid "Paytrail payment gateway integration for WooCommerce."
+msgstr ""
+
+#. Author of the plugin
+msgid "Lauri Karisola / Markup.fi"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:45
+#: includes/class-wc-gateway-paytrail-ppa.php:123
+msgid "Paytrail"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:55
+msgid "Proceed to pay"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:85
+#: includes/class-wc-gateway-paytrail-ppa.php:87
+msgid "Enable Paytrail"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:91
+msgid "Merchant ID"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:96
+msgid "Merchant key"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:101
+msgid "Payment mode"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:105
+msgid "Payment page"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:106
+msgid "Payment page bypass"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:110
+msgid "Language"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:114
+msgid "Site language (automatic)"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:115
+msgid "Finnish"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:116
+msgid "Swedish"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:117
+msgid "English"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:121
+msgid "Title"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:124
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:128
+msgid "Description"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:131
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:135
+msgid "Display terms"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:139
+msgid "Do not display"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:140
+msgid "Above payment methods or description"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:141
+msgid "Below payment methods or description"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:145
+#: includes/class-wc-gateway-paytrail-ppa.php:419
+msgid "Apple Pay"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:149
+msgid "Enable Apple Pay"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:152
+msgid "Requires domain validation with Paytrail. <a href=\"%s\" target=\"_blank\">Please see the instructions &raquo;</a>"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:155
+#: includes/views/apple-pay-file.html.php:3
+msgid "Verification File"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:159
+msgid "Transaction-specific settlements"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:163
+msgid "Enable transaction-specific settlements"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:166
+msgid "Requires activation from Paytrail as well. To activate transaction-specific settlements please contact Paytrail's customer service."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:169
+msgid "Bank reference prefix"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:171
+msgid "Prefix is prepended to the reference calculated from the order number. It should be at least two numbers to conform to the reference number requirements. For example, if prefix is 10 and order number 123, the final reference would be 101239 (prefix + order number + checksum)."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:180
+msgid "Polylang"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:185
+msgid "Enable compatibility mode"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:188
+msgid "Check this if <em>Order received</em> page is in wrong language or it returns <em>404 Not Found</em> error."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:505
+msgid "Customer was redirected to Paytrail."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:537
+#: includes/class-wc-gateway-paytrail-ppa.php:547
+#: includes/class-wc-gateway-paytrail-ppa.php:659
+#: includes/class-wc-gateway-paytrail-ppa.php:665
+msgid "Invalid token (%s). Please try again or add another payment card."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:537
+#: includes/class-wc-gateway-paytrail-ppa.php:659
+msgid "token not found"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:547
+#: includes/class-wc-gateway-paytrail-ppa.php:665
+msgid "user does not match"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:579
+msgid "Paytrail token payment completed with %s ending in %s. Transaction ID: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:598
+msgid "Error processing token payment with %s %s: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:602
+#: includes/class-wc-gateway-paytrail-ppa.php:740
+msgid "Unable to complete the payment. Please try again or choose another payment method. (%s)"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:604
+#: includes/class-wc-gateway-paytrail-ppa.php:622
+#: includes/class-wc-gateway-paytrail-ppa.php:742
+msgid "Unable to complete the payment. Please try again or choose another payment method. (2)"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:637
+msgid "Unknown error in Pay & Tokenize"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:652
+msgid "Please add payment card before proceeding."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:725
+msgid "unknown error"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:728
+#: includes/class-wc-gateway-paytrail-ppa.php:1498
+msgid "invalid response code %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:735
+msgid "Error processing payment: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:998
+#: includes/class-wc-gateway-paytrail-ppa.php:1033
+#: includes/class-wc-gateway-paytrail-ppa.php:1046
+msgid "Gift card: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1075
+msgid "Rounding"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1164
+msgid "Customer was redirected to Paytrail. Preselected payment method: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1198
+msgid "Failed to redirect to tokenization form: invalid response code %d"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1201
+msgid "Failed to redirect to tokenization form: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1204
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1289
+msgid "Order not found by stamp %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1309
+msgid "Paytrail payment completed with %s. Transaction ID: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1313
+msgid "Awaiting payment"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1314
+msgid "Paytrail payment PENDING with %s. Transaction ID: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1339
+msgid "Added card ending in %s to the user account."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1368
+msgid "Card ending with %s was added successfully."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1370
+msgid "Adding card failed. Please try again."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1495
+msgid "unknown error (response code: %s)"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1580
+msgid "Signature validation failed."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1600
+msgid "Order ID could not be retviered from stamp %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1622
+#: includes/class-wc-gateway-paytrail-ppa.php:1633
+#: includes/class-wc-gateway-paytrail-ppa.php:1641
+msgid "Paytrail token payment failed: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1622
+msgid "customer not set for the order"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1633
+msgid "default token not set for the customer"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1641
+msgid "customer default token is not for Paytrail gateway"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1660
+msgid "Scheduled Paytrail token payment completed with %s ending in %s. Transaction ID: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1664
+#: includes/class-wc-gateway-paytrail-ppa.php:1670
+msgid "Paytrail token payment failed with %s %s: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1664
+msgid "token payment requires 3D Secure authentication"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1678
+msgid "Unknown error charging token"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1739
+msgid "Paytrail payment refunded. Refund amount: %s."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1743
+msgid "Paytrail payment refund pending. Refund amount: %s."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1747
+msgid "Error refunding Paytrail payment: invalid status %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1750
+msgid "Error refunding Paytrail payment. Something went wrong."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1752
+msgid "Error refunding Paytrail payment: used payment method provider does not support refunds."
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1754
+msgid "Error refunding Paytrail payment: invalid response code %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1757
+msgid "Error refunding Paytrail payment: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1874
+msgid "N/A"
+msgstr ""
+
+#: includes/views/admin-info.html.php:3
+msgid "Paytrail settlement reference:"
+msgstr ""
+
+#: includes/views/apple-pay-file.html.php:9
+msgid "File exists"
+msgstr ""
+
+#: includes/views/apple-pay-file.html.php:18
+msgid "Save settings to generate verification file"
+msgstr ""
+
+#: includes/views/ppa-redirect-form-apple-pay.html.php:2
+msgid "Click the button below to complete your purchase with Apple Pay:"
+msgstr ""
+
+#: includes/views/ppa-redirect-form-apple-pay.html.php:44
+#: includes/views/ppa-redirect-form.html.php:20
+msgid "Error occurred. Please try again shortly."
+msgstr ""
+
+#: includes/views/ppa-redirect-form.html.php:7
+msgid "Redirecting..."
+msgstr ""
+
+#: includes/views/ppa-redirect-form.html.php:8
+msgid "If nothing happens in a few seconds, please click the button below."
+msgstr ""
+
+#: includes/views/ppa-redirect-form.html.php:10
+msgid "Submit"
+msgstr ""
+
+#: includes/views/ppa-token-payment.html.php:5
+msgid "Add payment card"
+msgstr ""
+
+#: includes/views/ppa-token-payment.html.php:12
+msgid "Please note that payment method will be updated to all of your subscriptions."
+msgstr ""
+
+#: wc-paytrail.php:189
+msgid "Check API credentials"
+msgstr ""
+
+#: wc-paytrail.php:190
+msgid "Valid credentials"
+msgstr ""
+
+#: wc-paytrail.php:213
+msgid "Access denied"
+msgstr ""
+
+#: wc-paytrail.php:246
+msgid "Merchant ID or secret is invalid."
+msgstr ""
+
+#: wc-paytrail.php:256
+msgid "Transaction-specific settlements are enabled at Paytrail. Please enable transaction-specific settlements below as well in order to use the plugin."
+msgstr ""
+
+#: wc-paytrail.php:266
+#: wc-paytrail.php:510
+msgid "Invalid response code: %s"
+msgstr ""
+
+#: wc-paytrail.php:376
+msgid "Paytrail requires at least two decimals (cents) to be able to calculate taxes correctly. Please check <a href=\"%s\"><em>WooCommerce > Settings > General > Currency options > Number of decimals</em></a>"
+msgstr ""
+
+#: wc-paytrail.php:387
+msgid "<em>Checkout Finland for WooCommerce</em> / <em>OP Payment Service for WooCommerce</em> plugin is activated which interferes with <em>WooCommerce Paytrail</em> plugin. Please deactivate or remove the conflicting plugin."
+msgstr ""
+
+#: wc-paytrail.php:393
+msgid "<em>Paytrail for WooCommerce</em> plugin is activated which interferes with <em>WooCommerce Paytrail</em> plugin. Please deactivate or remove the conflicting plugin."
+msgstr ""
+
+#: wc-paytrail.php:473
+msgid "Could not create .well-known directory"
+msgstr ""
+
+#: wc-paytrail.php:481
+msgid "Failed to copy verification file"
+msgstr ""
+
+#: wc-paytrail.php:507
+msgid "Verification file exists but contents are invalid"
+msgstr ""
+
+#: wc-paytrail.php:513
+msgid "Verification file could not be accessed: %s"
+msgstr ""
+
+#: wc-paytrail.php:516
+msgid "Unknown error"
+msgstr ""
+
+#: wc-paytrail.php:533
+msgid "File does not exist"
+msgstr ""
+
+#: wc-paytrail.php:539
+msgid "File exists but was generated for another domain"
+msgstr ""

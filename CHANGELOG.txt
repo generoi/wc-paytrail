@@ -1,0 +1,321 @@
+2.6.2 (31.7.2024)
+
+* Parannettu alv-kannan laskentaa tarkemmaksi. Aikaisemmin jos pyöristys oli rivitasolla eikä yhdellä kertaa (**WooCommerce > Asetukset > Verot > Veroasetukset > Pyöristys**), niin veroprosentiksi saattoi tulla 23,9 % tai 24,1 % pienille summille. Jatkossa laskenta toimii em. asetuksesta riippumatta myös pienille summille
+
+2.6.1 (29.7.2024)
+
+* **Alv-muutos 1.9.2024**: lisätty tuki desimaalimuotoisille alv-kannoille (25,5 %)
+
+2.6.0 (25.3.2024)
+
+* Palautukset kohdistetaan jatkossa yksittäisille tilausriveille, jolloin tilitysraportointi on tarkempaa. Aiemmin palautukset kohdistettiin koko tilaukselle.
+* Virallinen tuki negatiivisille tilausriveille (esim. lahjakortit)
+
+2.5.1 (15.2.2024)
+
+* Parannettu yhteensopivuutta blocks-pohjaisen kassan kanssa
+
+2.5.0 (19.12.2023)
+
+* Lisätty tuki blocks-pohjaiselle kassalle
+* Lisätty Pay & Tokenize tuki. Jatkossa toistuvissa maksuissa asiakas voi lisätä kortin ja maksaa tilauksen yhdellä pyynnöllä, kun aikaisemmin kortti piti erikseen lisätä ennen maksua.
+
+2.4.5 (20.9.2023)
+
+* Muutettu maksutapojen järjestys ottamaan huomioon 1.10.2023 voimaan tuleva kuluttujansuojalain muutos. Järjestys muuttuu automaattisesti 1.10. niin, että ensin näytetään ei-luotolliset maksutavat (esim. verkkopankit) ja sen jälkeen mobiilimaksutavat sekä luotolliset maksutavat
+
+2.4.4 (28.8.2023)
+
+* Lisätty ylläpitoon tilauksen kommentteihin tieto maksamaan siirtymisestä sekä valittu maksutapa
+* WooCommerce 8.x yhteensopivuus
+
+2.4.3 (7.8.2023)
+
+* *_WooCommerce High Performance Order Storage (HPOS)_* yhteensopivuus
+
+2.4.2 (22.5.2023)
+
+* Parannettu Apple Payn yhteensopivuutta eri webhotellien kanssa
+* Parannettu Apple Payn yhteensopivuutta eri teemojen kanssa
+
+2.4.1 (14.3.2023)
+
+* Apple Payn verifiointitiedosto luodaan automaattisesti, jos se puuttuu
+* Parannettu tukea räätälöidyille tilausten tiloille - jatkossa integraatio osaa ottaa huomioon, jos tila on maksun jälkeen jokin muu kuin *_Käsittelyssä_* tai *_Valmis_*
+
+2.4.0 (27.2.2023)
+
+* Lisätty tuki Apple Paylle, kun maksusivun ohitus on päällä
+* Parannettu yhteensopivuutta Polylangin kanssa
+* Lisätty automaattinen kielen tunnistus, jos käytössä on monikielisyyslisäosa (esim. WPML tai Polylang)
+* Poistettu tuki E2-rajapinnalle (vanha Paytrailin rajapinta, joka poistui käytöstä 31.12.2022)
+
+2.3.0 (23.5.2022)
+
+* Lisätty tuki WooCommerce Subscriptions lisäosan toistuville maksuille
+
+2.2.2 (23.4.2022)
+
+* Lisätty katkaisu liian pitkille osoitetiedoille, joka aiheutti virheen aiemmissa versioissa
+
+2.2.1 (21.4.2022)
+
+* Korjattu bugi, joka saattoi tietyissä hyvin harvinaisissa tapauksissa merkitä maksetun tilauksen epäonnistuneeksi
+
+2.2.0 (20.4.2022)
+
+* Lisätty tuki yksittäistilityksille (*_WooCommerce > Asetukset > Maksut > Paytrail (uusi) > Yksittäistilitykset_*)
+
+2.1.2 (15.3.2022)
+
+* Selkeytetty virheilmoituksia
+
+2.1.1 (14.3.2022)
+
+* Kehittäjille: lisätty mahdollisuus muuttaa tilausnumeroa koneellisesti, kun palataan verkkokauppaan maksun jälkeen
+
+2.1.0 (17.2.2022)
+
+* Lisätty huomautus, jos käytössä on toinen Paytrail (tai Checkout) lisäosa, mikä aiheuttaa yhteensopivuusongelmia
+* Lisätty tuki WordPressin automaattisille päivityksille
+
+2.0.5 (21.12.2021)
+
+* Korjattu ruotsin kielikoodi uudessa rajapinnassa
+
+2.0.4 (13.12.2021)
+
+* Parannettu virheilmoituksia niin, että ylläpidoon tallennetaan tilauksen muistiinpanoihin mahdolliset maksun luomisessa tapahtuneet virheet
+
+2.0.3 (8.12.2021)
+
+* Parannettu uuden rajapinnan yhteensopivuutta erilaisten alennuslisäosien kanssa
+
+2.0.2 (3.12.2021)
+
+* Parannettu yhteensopivuutta eri teemojen kanssa. Aiemmin maksusivun ohituksessa maksutapojen kuvakkeet eivät näkyneet kaikilla teemoilla.
+
+2.0.1 (18.11.2021)
+
+* Julkaistu uusi rajapinta kaikille
+
+2.0.0 (5.10.2021)
+
+* Lisätty tuki Paytrailin uudelle rajapinnalle (ent. Checkoutin rajapinta)
+
+1.7.1 (31.5.2021)
+
+* Parannettu yhteensopivuutta MobilePayn kanssa
+
+1.7.0 (5.3.2021)
+
+* HUOM! Versiossa tuli muutoksia tilausrivien käsittelyyn. Varmista toimivuus päivityksen jälkeen tekemällä koetilaus Paytrailin maksusivulle asti. Tilausta ei tarvitse maksaa loppuun, Paytrailin sivulle eteneminen riittää testaamiseksi.
+* Lisätty tarkistus, että WooCommercessa käytetään vähintään 2 desimaalia laskennassa (WooCommerce > Asetukset > Yleiset > Valuutta-asetukset > Desimaalien lukumäärä)
+* Parannettu tuotteiden verolaskentaa, jotta Paytrailille välittyy oikea veroprosentti myös EU VAT Number -lisäosia käyttäessä
+* Parannettu toimituskulujen käsittelyä ja verolaskentaa
+* Poistettu WooCommerce 2.x tuki. Jatkossa lisäosa toimii WooCommerce 3.x, 4.x ja 5.x versioilla. 
+
+1.6.9 (25.2.2021)
+
+* WooCommerce 5.x yhteensopivuus
+
+1.6.8 (18.12.2020)
+
+* Tarkennettu palautusten virheilmoituksia liittyen veroihin
+
+1.6.7 (23.11.2020)
+
+* Parannettu yhteensopivuutta uusimpien WooCommerce-versioiden kanssa
+
+1.6.6 (28.10.2020)
+
+* Kehittäjille: Lisätty mahdollisuus tulostaa tietoa maksutapojen yhteyteen kassalle (add_action - do_action mekanismilla)
+
+1.6.5 (9.10.2020)
+
+* Poistettu Klarna lopullisesti (tuki loppunut 1.10.2020)
+* Parannettu tilaus-ID:n käsittelyä
+
+1.6.4 (9.9.2020)
+
+* Poistettu Klarna käytöstä 1.10.2020 alkaen (tuki loppuu)
+
+1.6.3 (26.8.2020)
+
+* WordPress 5.5 yhteensopivuus
+
+1.6.2 (11.6.2020)
+
+* Korjattu syntaksivirhe, mikä ilmeni vanhemmilla PHP-versioilla.
+
+1.6.1 (11.6.2020)
+
+* Vaihdettu maksusivun ohituksella maksetut tilaukset käyttämään maksunpalautuksissa Paytrailin sisäistä maksutunnusta tilausnumeron sijaan. Muutos ehkäisee maksunpalautuksen virheitä, jotka liittyvät duplikaatteihin tilausnumeroihin.
+
+1.6.0 (5.5.2020)
+
+* Muutettu painikkeen teksti "Lähetä tilaus" -> "Siirry maksamaan" kassalla
+* Lisätty tuki WooCommerce Gift Cards -lisäosan lahjakorteille (https://woocommerce.com/products/gift-cards/)
+
+1.5.9 (14.4.2020)
+
+* Korjattu bugi, joka esti maksunpalautuksen tekemisen joillekin summille.
+
+1.5.8 (5.3.2020)
+
+* Selkeytetty virheilmoituksia, kun Paytrailin tunnuksia tarkistaa ylläpidosta
+
+1.5.7 (25.2.2020)
+
+* Poistettu Wirecardin korttimaksutavat, joita Paytrail ei enää tue. Jatkossa ainoastaan Netsin korttimaksut ovat tuettuina.
+
+1.5.6 (10.2.2020)
+
+* Lisätty parempi lokitus maksunpalautusten virhetilanteille
+
+1.5.5 (2.9.2019)
+
+* Korjattu PHP notice -viesti, joka tuli alennuskuponkeja käyttäessä. Viesti ei vaikuttanut lisäosan toimintaan, mutta saattoi näkyä virhelokissa.
+
+1.5.4 (14.8.2019)
+
+* Lisätty tuki WooCommerce Events Manager -lisäosalle
+* Lisätty mahdollisuus valita, näytetäänkö maksutavat pudotusvalikossa vai erikseen mobiililaitteilla maksusivun ohituksessa.
+
+1.5.3 (24.4.2019)
+
+* Lisätty tuki PW WooCommerce Gift Cards lisäosalle lahjakortteja varten
+* Parannettu pyöristysvirheiden käsittelyä
+* Kehittäjille: lisätty mahdollisuus pakottaa E2-rajapinnan käyttö
+
+1.5.2 (7.2.2019)
+
+* PHP 7.3 yhteensopivuus
+
+1.5.1 (10.1.2019)
+
+* Lisätty tuki Polylangille
+* Parannettu tukea ulkomaisille postinumeroille
+* Kehittäjille: lisätty mahdollisuus muokata maksun tietoja koneellisesti
+
+1.5.0 (8.10.2018)
+
+* Päivitetty maksusivun ohituksessa käytettävä rajapinta E1-versiosta versioon E2.
+
+1.4.1 (23.6.2018)
+
+* WooCommerce 3.4.3 yhteensopivuus
+
+1.4.0 (23.6.2018)
+
+* Lisätty mahdollisuus tarkistaa kauppiastunnukset suoraan asetuksista
+* Lisätty mahdollisuus hakea maksusivun ohituksen maksutavat automaattisesti
+* Järjestetty maksutavat tyypeittäin (verkkopankit, kortit, laskut / osamaksut, muut)
+* Selkeytetty asetuksia
+* Poistettu Maestro ja Collector maksutavat (Maestro poistunut kokonaan, Collectorin korvaa Collector Bank)
+
+1.3.10
+
+* Korjattu bugi, joka esti valittujen maksutapojen näkymisen asetuksissa
+
+1.3.9
+
+* Poistettu Paytrail-tili maksutavoista (poistuu lopullisesti 19.6.2018)
+* Selkeytetty asetuksia
+
+1.3.8
+
+* Parannettu yhteensopivuutta multisite-sivustojen kanssa.
+
+1.3.7
+
+* Parannettu tilauksen loppusumman tarkistusta alennuslisäosia varten.
+
+1.3.6
+
+* Lisätty tuki YITH Gift Cards -lisäosalle.
+
+1.3.5
+
+* Parannettu yhteensopivuutta 3. osapuolien lisäosien kanssa, joilla voidaan lisätä erilaisia lisäpalveluja / kuluja tilaukseen (esim. WooCommerce Checkout Add-Ons)
+
+1.3.4
+
+* Parannettu yhteensopivuutta vanhempien PHP-versioiden (<5.4) kanssa
+
+1.3.3
+
+* Parannettu yhteensopivuutta vanhempien WooCommerce versioiden kanssa (alle 3.0)
+
+1.3.2
+
+* Lisätty automaattinen maksusivun kielen valinta WPML:lle
+* Parannettu yhteensopivuutta tilausnumeroa muuttavien lisäosien kanssa (esim. Sequential Order Numbers)
+* Lisätty mahdollisuus muuttaa koneellisesti maksutapoja maksusivun ohituksessa (sovelluskehittäjille)
+* Parannettu tilausnumeroiden koneellista muuttamista (sovelluskehittäjille)
+
+1.3.1
+
+* Lisätty tuki MobilePaylle
+
+1.3.0
+
+* Lisätty mahdollisuus tehdä maksun palautuksia suoraan WooCommercesta.
+
+1.2.1
+
+* Lisätty mahdollisuus muuttaa tilauksen ID:tä koneellisesti
+* Lisätty tarkistus, ettei jo maksettua tilausta merkitä epäonnistuneeksi, jos maksusivua yritetään väärällä / muutetulla tarkistusavaimella
+
+1.2.0
+
+* Korjattu bugi, joka aiheutti Paytrailin virheilmoituksen, jos tuotteen tai yrityksen tiedoissa oli tiettyjä erikoismerkkejä.
+
+1.1.9
+
+* Korjattu bugi, joka aiheutti muutaman sentin pyöristysvirheen Paytrailille lähetettävässä hinnassa, jos tilauksessa on alennuskoodi ja suuri lukumäärä alle euron tuotteita.
+* Korjattu bugi, joka ei sallinut maksua, jos tuotteiden tuotetunnus (SKU) oli liian pitkä.
+
+1.1.8
+
+* Lisätty tuki Smart Coupons -lahjakorteille
+* Parannettu ALV:n käsittelyä. Vanhoissa WooCommercen versioissa (<2.4) alennukset vääristivät Paytrailille toimitettavaa alv-prosenttia.
+
+1.1.7
+
+* Korjattu bugi, joka aiheutti HTTP 500 -virheen, jos WooCommerce otetaan pois päältä, kun WooCommerce Paytrail on päällä.
+
+1.1.6
+
+* Parannettu tilausrivien alvin käsittelyä maksusivun ohituksessa.
+
+1.1.5
+
+* Korjattu yhteensopivuus WP 4.6 kanssa, jos maksusivun ohitus ei ole käytössä.
+
+1.1.4
+
+* Lisätty linkki asetuksiin WordPressin lisäosasivulle
+* Parannettu tilausrivien ALV:n käsittelyä
+
+1.1.3
+
+* Lisätty Oma Säästöpankki maksutavaksi, jos maksusivun ohitus on käytössä
+* Parannettu toimituskulujen ALV:n käsittelyä
+
+1.1.2
+
+* Korjattu bugi, joka lähetti väärän summan Paytrailille, jos ylläpidon ALV-asetukset poikkesivat normaalista
+
+1.1.1
+
+* Lisätty tuki automaattisille päivityksille
+* Korjattu bugi, joka näyttää virheilmoituksen, jos yhtään maksutapaa ei ole valittu ja maksusivun ohitus on käytössä
+
+1.1.0
+
+* Lisätty maksusivun ohitus.
+
+1.0.0
+
+* Ensimmäinen versio.

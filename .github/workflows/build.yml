@@ -5,37 +5,6 @@ on:
     - cron: '5 4 * * *'
 jobs:
   build:
-    name: Update plugin
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    outputs:
-      updated: ${{ steps.update.outputs.updated }}
-      version: ${{ steps.update.outputs.version }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Retrieve the latest version number
-        run: |
-          {
-            echo 'LATEST_VERSION<<EOF'
-            curl 'https://markup.fi/products/woocommerce-paytrail/metadata.json' | jq -r .version
-            echo 'EOF'
-          } >> "$GITHUB_ENV"
-
-      - name: Update repo
-        uses: generoi/github-action-update-plugins@master
-        id: update
-        with:
-          download_url: "https://markup.fi/products/woocommerce-paytrail/download"
-          version: ${{ env.LATEST_VERSION }}
-          changelog_extract: |
-            awk -v ver=${{ env.LATEST_VERSION}} '/[0-9\.]+ \(.*\)/ { if (p) { exit }; if ($1 == ver) { p=1; next } } p && NF' CHANGELOG.txt
-
-  update-satis:
-    needs: build
-    if: needs.build.outputs.updated == 'true'
-    uses: generoi/packagist/.github/workflows/update.yml@master
-    secrets:
-      token: ${{ secrets.PACKAGIST_UPDATE_PAT }}
+    uses: generoi/github-action-update-plugins/.github/workflows/markup-update.yml@master
+    with:
+      slug: 'woocommerce-paytrail'

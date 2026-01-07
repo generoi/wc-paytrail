@@ -12,16 +12,27 @@
 	<div class="wc-paytrail-ppa-methods">
 		<?php foreach ( $groups as $group ) { ?>
 			<?php if ( ! empty( $group->providers ) ) { ?>
-				<div class="wc-paytrail-ppa-method-group <?php echo ( $group->id === 'applepay' ? 'wc-paytrail-hide-ap' : '' ); ?>" id="wc-paytrail-ppa-method-group-<?php echo esc_attr( $group->id ); ?>">
-					<div class="wc-paytrail-ppa-method-group-title"><?php echo esc_html( $group->name ); ?></div>
+				<div
+					class="wc-paytrail-ppa-method-group <?php echo ( $group->id === 'applepay' ? 'wc-paytrail-hide-ap' : '' ); ?>"
+					id="wc-paytrail-ppa-method-group-<?php echo esc_attr( $group->id ); ?>"
+					role="radiogroup"
+					aria-labelledby="wc-paytrail-ppa-method-group-title-<?php echo esc_attr( $group->id ); ?>"
+				>
+					<div class="wc-paytrail-ppa-method-group-title" id="wc-paytrail-ppa-method-group-title-<?php echo esc_attr( $group->id ); ?>"><?php echo esc_html( $group->name ); ?></div>
 					
 					<?php foreach ( $group->providers as $provider ) { ?>
-						<div class="wc-paytrail-ppa-method" id="wc-paytrail-ppa-method-<?php echo $provider->id; ?>">
+						<div class="wc-paytrail-ppa-method" id="wc-paytrail-ppa-method-<?php echo esc_attr( $provider->id ); ?>">
 							<?php do_action( 'wc_paytrail_ppa_before_payment_method', $provider ); ?>
 							<div class="wc-paytrail-ppa-method-icon-container">
-								<img src="<?php echo esc_attr( $provider->svg ); ?>" class="wc-paytrail-ppa-method-icon" />
+								<img src="<?php echo esc_attr( $provider->svg ); ?>" class="wc-paytrail-ppa-method-icon" alt="<?php echo esc_attr( $provider->name ); ?>" />
 							</div>
-							<input type="radio" name="wc_paytrail_ppa_preselected_method" value="<?php echo $provider->id; ?>" id="wc-paytrail-ppa-method-radio-<?php echo $provider->id; ?>" />
+							<input
+								type="radio"
+								name="wc_paytrail_ppa_preselected_method"
+								value="<?php echo esc_attr( $provider->id ); ?>"
+								id="wc-paytrail-ppa-method-radio-<?php echo esc_attr( $provider->id ); ?>"
+								aria-label="<?php echo esc_attr( $provider->name ); ?>"
+							/>
 							<?php do_action( 'wc_paytrail_ppa_after_payment_method', $provider ); ?>
 						</div>
 					<?php } ?>

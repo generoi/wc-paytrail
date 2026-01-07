@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-paytrail\n"
-"POT-Creation-Date: 2023-12-15T09:32:11+00:00\n"
-"PO-Revision-Date: 2023-12-15 11:37+0200\n"
+"POT-Creation-Date: 2025-12-16T07:51:30+00:00\n"
+"PO-Revision-Date: 2025-12-16 09:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -35,102 +35,117 @@ msgstr ""
 msgid "Lauri Karisola / Markup.fi"
 msgstr ""
 
-#: includes/class-wc-gateway-paytrail-ppa.php:45
-#: includes/class-wc-gateway-paytrail-ppa.php:123
+#: includes/class-wc-gateway-paytrail-ppa.php:46
+#: includes/class-wc-gateway-paytrail-ppa.php:116
 msgid "Paytrail"
 msgstr "Paytrail"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:55
+#: includes/class-wc-gateway-paytrail-ppa.php:61
 msgid "Proceed to pay"
 msgstr "Siirry maksamaan"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:85
-#: includes/class-wc-gateway-paytrail-ppa.php:87
+#: includes/class-wc-gateway-paytrail-ppa.php:94
+#: includes/class-wc-gateway-paytrail-ppa.php:96
 msgid "Enable Paytrail"
 msgstr "Aktivoi Paytrail"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:91
+#: includes/class-wc-gateway-paytrail-ppa.php:100
 msgid "Merchant ID"
 msgstr "Kauppias ID"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:96
+#: includes/class-wc-gateway-paytrail-ppa.php:105
 msgid "Merchant key"
 msgstr "Kauppiasvarmenne"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:101
-msgid "Payment mode"
-msgstr "Maksaminen"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:105
-msgid "Payment page"
-msgstr "Maksusivu"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:106
-msgid "Payment page bypass"
-msgstr "Maksusivun ohitus"
-
 #: includes/class-wc-gateway-paytrail-ppa.php:110
-msgid "Language"
-msgstr "Kieli"
+msgid "Checkout"
+msgstr "Kassa"
 
 #: includes/class-wc-gateway-paytrail-ppa.php:114
-msgid "Site language (automatic)"
-msgstr "Sivuston kieli (automaattinen)"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:115
-msgid "Finnish"
-msgstr "suomi"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:116
-msgid "Swedish"
-msgstr "ruotsi"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:117
-msgid "English"
-msgstr "englanti"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:121
 msgid "Title"
 msgstr "Nimi"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:124
+#: includes/class-wc-gateway-paytrail-ppa.php:117
 msgid "This controls the title which the user sees during checkout."
 msgstr "Maksutavan nimi, joka näytetään kassalla asiakkaalle."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:128
+#: includes/class-wc-gateway-paytrail-ppa.php:121
 msgid "Description"
 msgstr "Kuvaus"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:131
+#: includes/class-wc-gateway-paytrail-ppa.php:124
 msgid "This controls the description which the user sees during checkout."
 msgstr "Maksutavan kuvaus, joka näytetään kassalla asiakkaalle."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:135
+#: includes/class-wc-gateway-paytrail-ppa.php:128
+msgid "Payment page bypass"
+msgstr "Maksusivun ohitus"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:130
+msgid ""
+"With the payment page bypass enabled, customers select their payment method "
+"during checkout. When disabled, they are redirected to Paytrail to choose "
+"their payment method. <a href=\"%s\" target=\"_blank\">View comparison "
+"&raquo;</a>"
+msgstr ""
+"Maksusivun ohituksessa asiakkaat valitsevat maksutavan kassalla. Ilman "
+"ohitusta asiakas ohjataan Paytrailiin, jossa valitaan maksutapa. <a "
+"href=\"%s\" target=\"_blank\">Näytä vertailu &raquo;</a>"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:133
+msgid "Yes"
+msgstr "Kyllä"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:134
+msgid "No"
+msgstr "Ei"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:138
+msgid "Language"
+msgstr "Kieli"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:142
+msgid "Site language (automatic)"
+msgstr "Sivuston kieli (automaattinen)"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:143
+msgid "Finnish"
+msgstr "suomi"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:144
+msgid "Swedish"
+msgstr "ruotsi"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:145
+msgid "English"
+msgstr "englanti"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:149
 msgid "Display terms"
 msgstr "Näytä maksuehdot"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:139
+#: includes/class-wc-gateway-paytrail-ppa.php:153
 msgid "Do not display"
 msgstr "Piilota maksuehdot"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:140
+#: includes/class-wc-gateway-paytrail-ppa.php:154
 msgid "Above payment methods or description"
 msgstr "Ennen maksutapoja tai kuvausta"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:141
+#: includes/class-wc-gateway-paytrail-ppa.php:155
 msgid "Below payment methods or description"
 msgstr "Maksutapojen tai kuvauksen jälkeen"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:145
-#: includes/class-wc-gateway-paytrail-ppa.php:419
+#: includes/class-wc-gateway-paytrail-ppa.php:159
+#: includes/class-wc-gateway-paytrail-ppa.php:533
 msgid "Apple Pay"
-msgstr ""
+msgstr "Apple Pay"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:149
+#: includes/class-wc-gateway-paytrail-ppa.php:163
 msgid "Enable Apple Pay"
 msgstr "Aktivoi Apple Pay"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:152
+#: includes/class-wc-gateway-paytrail-ppa.php:166
 msgid ""
 "Requires domain validation with Paytrail. <a href=\"%s\" "
 "target=\"_blank\">Please see the instructions &raquo;</a>"
@@ -138,20 +153,42 @@ msgstr ""
 "Edellyttää verkkotunnuksen verifioinnin. <a href=\"%s\" "
 "target=\"_blank\">Katso ohjeet »</a>"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:155
+#: includes/class-wc-gateway-paytrail-ppa.php:169
 #: includes/views/apple-pay-file.html.php:3
 msgid "Verification File"
 msgstr "Verifiointitiedosto"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:159
+#: includes/class-wc-gateway-paytrail-ppa.php:173
+msgid "Invoices (Walley & Klarna)"
+msgstr "Laskut (Walley & Klarna)"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:177
+msgid "Capture invoices"
+msgstr "Aktivoi laskut"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:178
+msgid ""
+"Select when Walley and Klarna invoices are captured. <a href=\"https://"
+"markup.fi/guide/woocommerce-paytrail-ohje/\" target=\"_blank\">View "
+"instructions &raquo;</a>"
+msgstr ""
+"Valitse milloin Walleyn ja Klarnan laskut aktivoidaan. <a href=\"https://"
+"markup.fi/guide/woocommerce-paytrail-ohje/\" target=\"_blank\">Näytä ohjeet "
+"&raquo;</a>"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:184
+msgid "Order status for uncaptured orders"
+msgstr "Tilauksen tila aktivoimattomille laskuille"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:190
 msgid "Transaction-specific settlements"
 msgstr "Yksittäistilitykset"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:163
+#: includes/class-wc-gateway-paytrail-ppa.php:194
 msgid "Enable transaction-specific settlements"
 msgstr "Käytä yksittäistilityksiä"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:166
+#: includes/class-wc-gateway-paytrail-ppa.php:197
 msgid ""
 "Requires activation from Paytrail as well. To activate transaction-specific "
 "settlements please contact Paytrail's customer service."
@@ -159,11 +196,11 @@ msgstr ""
 "Edellyttää aktivoinnin Paytrailin puolelta. Ota yhteyttä Paytrailin "
 "asiakaspalveluun aktivoidaksesi yksittäistilitykset."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:169
+#: includes/class-wc-gateway-paytrail-ppa.php:200
 msgid "Bank reference prefix"
 msgstr "Tilitysviitteen etuliite"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:171
+#: includes/class-wc-gateway-paytrail-ppa.php:202
 msgid ""
 "Prefix is prepended to the reference calculated from the order number. It "
 "should be at least two numbers to conform to the reference number "
@@ -175,15 +212,15 @@ msgstr ""
 "on 10 ja tilausnumero 123, lopullinen tilitysviite on 1 01239 (etuliite + "
 "tilausnumero + tarkistenumero)."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:180
+#: includes/class-wc-gateway-paytrail-ppa.php:211
 msgid "Polylang"
-msgstr ""
+msgstr "Polylang"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:185
+#: includes/class-wc-gateway-paytrail-ppa.php:216
 msgid "Enable compatibility mode"
 msgstr "Aktivoi yhteensopivuustila"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:188
+#: includes/class-wc-gateway-paytrail-ppa.php:219
 msgid ""
 "Check this if <em>Order received</em> page is in wrong language or it "
 "returns <em>404 Not Found</em> error."
@@ -192,213 +229,248 @@ msgstr ""
 "sivu on väärällä kielellä tai se palauttaa <em>404 Sivua ei löydy</em> "
 "virheen."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:505
+#: includes/class-wc-gateway-paytrail-ppa.php:256
+msgid "Automatically during checkout (default)"
+msgstr "Heti maksun yhteydessä (oletus)"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:257
+msgid "Manually from admin"
+msgstr "Ylläpidosta tilauksen jälkeen"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:260
+msgid "On status: %s"
+msgstr "Kun tila vaihtuu: %s"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:620
 msgid "Customer was redirected to Paytrail."
 msgstr "Asiakas ohjattiin maksamaan Paytrailiin."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:537
-#: includes/class-wc-gateway-paytrail-ppa.php:547
-#: includes/class-wc-gateway-paytrail-ppa.php:659
-#: includes/class-wc-gateway-paytrail-ppa.php:665
+#: includes/class-wc-gateway-paytrail-ppa.php:652
+#: includes/class-wc-gateway-paytrail-ppa.php:662
+#: includes/class-wc-gateway-paytrail-ppa.php:774
+#: includes/class-wc-gateway-paytrail-ppa.php:780
 msgid "Invalid token (%s). Please try again or add another payment card."
 msgstr ""
 "Virheellinen maksukortin tunniste (%s). Yritä uudelleen tai lisää toinen "
 "maksukortti."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:537
-#: includes/class-wc-gateway-paytrail-ppa.php:659
+#: includes/class-wc-gateway-paytrail-ppa.php:652
+#: includes/class-wc-gateway-paytrail-ppa.php:774
 msgid "token not found"
 msgstr "tunnistetta ei löytynyt"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:547
-#: includes/class-wc-gateway-paytrail-ppa.php:665
+#: includes/class-wc-gateway-paytrail-ppa.php:662
+#: includes/class-wc-gateway-paytrail-ppa.php:780
 msgid "user does not match"
 msgstr "käyttäjä ei täsmää"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:579
+#: includes/class-wc-gateway-paytrail-ppa.php:694
 msgid ""
 "Paytrail token payment completed with %s ending in %s. Transaction ID: %s"
 msgstr "Paytrailin korttimaksu suoritettu kortilla %s %s. Maksun tunnus: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:598
+#: includes/class-wc-gateway-paytrail-ppa.php:713
 msgid "Error processing token payment with %s %s: %s"
 msgstr "Virhe korttimaksua tehdessä kortilla %s %s: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:602
-#: includes/class-wc-gateway-paytrail-ppa.php:740
+#: includes/class-wc-gateway-paytrail-ppa.php:717
+#: includes/class-wc-gateway-paytrail-ppa.php:860
 msgid ""
 "Unable to complete the payment. Please try again or choose another payment "
 "method. (%s)"
 msgstr ""
 "Maksua ei voitu suorittaa. Yritä uudestaan tai valitse toinen maksutapa. (%s)"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:604
-#: includes/class-wc-gateway-paytrail-ppa.php:622
-#: includes/class-wc-gateway-paytrail-ppa.php:742
+#: includes/class-wc-gateway-paytrail-ppa.php:719
+#: includes/class-wc-gateway-paytrail-ppa.php:737
+#: includes/class-wc-gateway-paytrail-ppa.php:862
 msgid ""
 "Unable to complete the payment. Please try again or choose another payment "
 "method. (2)"
 msgstr ""
 "Maksua ei voitu suorittaa. Yritä uudestaan tai valitse toinen maksutapa. (2)"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:637
+#: includes/class-wc-gateway-paytrail-ppa.php:752
 msgid "Unknown error in Pay & Tokenize"
-msgstr ""
+msgstr "Tuntematon Pay & Tokenize virhe"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:652
+#: includes/class-wc-gateway-paytrail-ppa.php:767
 msgid "Please add payment card before proceeding."
 msgstr "Lisää maksukortti ennen tilauksen viemistä loppuun."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:725
+#: includes/class-wc-gateway-paytrail-ppa.php:845
 msgid "unknown error"
 msgstr "tuntematon virhe"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:728
-#: includes/class-wc-gateway-paytrail-ppa.php:1498
+#: includes/class-wc-gateway-paytrail-ppa.php:848
+#: includes/class-wc-gateway-paytrail-ppa.php:1762
 msgid "invalid response code %s"
 msgstr "virheellinen vastauskoodi %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:735
+#: includes/class-wc-gateway-paytrail-ppa.php:855
 msgid "Error processing payment: %s"
 msgstr "Virhe maksua tehdessä: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:998
-#: includes/class-wc-gateway-paytrail-ppa.php:1033
-#: includes/class-wc-gateway-paytrail-ppa.php:1046
+#: includes/class-wc-gateway-paytrail-ppa.php:1126
+#: includes/class-wc-gateway-paytrail-ppa.php:1161
+#: includes/class-wc-gateway-paytrail-ppa.php:1174
 msgid "Gift card: %s"
 msgstr "Lahjakortti: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1075
+#: includes/class-wc-gateway-paytrail-ppa.php:1190
 msgid "Rounding"
 msgstr "Pyöristys"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1164
+#: includes/class-wc-gateway-paytrail-ppa.php:1364
 msgid "Customer was redirected to Paytrail. Preselected payment method: %s"
 msgstr "Asiakas ohjattiin maksamaan Paytrailiin. Esivalittu maksutapa: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1198
+#: includes/class-wc-gateway-paytrail-ppa.php:1398
 msgid "Failed to redirect to tokenization form: invalid response code %d"
 msgstr "Ohjaus korttilomakkeeseen epäonnistui: virheellinen vastauskoodi %d"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1201
+#: includes/class-wc-gateway-paytrail-ppa.php:1401
 msgid "Failed to redirect to tokenization form: %s"
 msgstr "Ohjaus korttilomakkeeseen epäonnistui: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1204
+#: includes/class-wc-gateway-paytrail-ppa.php:1404
 msgid "Something went wrong. Please try again."
 msgstr "Jotain meni pieleen. Yritä uudelleen."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1289
+#: includes/class-wc-gateway-paytrail-ppa.php:1489
 msgid "Order not found by stamp %s"
 msgstr "Tilausta ei löytynyt tunnisteella %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1309
+#: includes/class-wc-gateway-paytrail-ppa.php:1518
 msgid "Paytrail payment completed with %s. Transaction ID: %s"
 msgstr "Paytrail-maksu suoritettu. Maksutapa: %s. Maksun tunnus: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1313
-msgid "Awaiting payment"
-msgstr "Odottaa maksua"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1314
+#: includes/class-wc-gateway-paytrail-ppa.php:1523
 msgid "Paytrail payment PENDING with %s. Transaction ID: %s"
 msgstr "Paytrail-maksu ODOTTAA suoritusta. Maksutapa: %s. Maksun tunnus: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1339
+#: includes/class-wc-gateway-paytrail-ppa.php:1530
+msgid "Pending %s invoice capture. Transaction ID: %s"
+msgstr "Odottaa %s laskun aktivointia. Maksun tunnus: %s"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1540
+msgid "Paytrail payment DELAYED with %s. Transaction ID: %s"
+msgstr "Paytrail-maksu ODOTTAA vahvistusta. Maksutapa: %s. Maksun tunnus: %s"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1551
+msgid "Paytrail payment FAILED with %s. Transaction ID: %s"
+msgstr "Paytrail-maksu EPÄONNISTUI. Maksutapa: %s. Maksun tunnus: %s"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:1582
 msgid "Added card ending in %s to the user account."
 msgstr ""
 "Lisätty maksukortti asiakastilille. Maksukortin viimeiset neljä numeroa: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1368
+#: includes/class-wc-gateway-paytrail-ppa.php:1632
 msgid "Card ending with %s was added successfully."
 msgstr "Maksukortti lisätty onnistuneesti. Kortin viimeiset neljä numeroa: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1370
+#: includes/class-wc-gateway-paytrail-ppa.php:1634
 msgid "Adding card failed. Please try again."
 msgstr "Maksukortin lisäys epäonnistui. Yritä uudelleen."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1495
+#: includes/class-wc-gateway-paytrail-ppa.php:1759
 msgid "unknown error (response code: %s)"
 msgstr "tuntematon virhe (vastauskoodi %s)"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1580
+#: includes/class-wc-gateway-paytrail-ppa.php:1844
 msgid "Signature validation failed."
 msgstr "Tarkisteen laskenta epäonnistui."
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1600
+#: includes/class-wc-gateway-paytrail-ppa.php:1931
 msgid "Order ID could not be retviered from stamp %s"
 msgstr "Tilauksen ID:tä ei löytynyt tunnisteella %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1622
-#: includes/class-wc-gateway-paytrail-ppa.php:1633
-#: includes/class-wc-gateway-paytrail-ppa.php:1641
+#: includes/class-wc-gateway-paytrail-ppa.php:1953
+#: includes/class-wc-gateway-paytrail-ppa.php:1964
+#: includes/class-wc-gateway-paytrail-ppa.php:1972
 msgid "Paytrail token payment failed: %s"
 msgstr "Paytrailin korttimaksu epäonnistui: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1622
+#: includes/class-wc-gateway-paytrail-ppa.php:1953
 msgid "customer not set for the order"
 msgstr "tilauksella ei ole asiakastiliä"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1633
+#: includes/class-wc-gateway-paytrail-ppa.php:1964
 msgid "default token not set for the customer"
 msgstr "asiakkaalla ei ole tallennettua maksukorttia"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1641
+#: includes/class-wc-gateway-paytrail-ppa.php:1972
 msgid "customer default token is not for Paytrail gateway"
 msgstr "asiakkaan korttitunniste ei ole Paytrailille"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1660
+#: includes/class-wc-gateway-paytrail-ppa.php:1991
 msgid ""
 "Scheduled Paytrail token payment completed with %s ending in %s. Transaction "
 "ID: %s"
 msgstr ""
 "Ajastettu Paytrailin korttimaksu suoritettu kortilla %s %s. Maksun tunnus: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1664
-#: includes/class-wc-gateway-paytrail-ppa.php:1670
+#: includes/class-wc-gateway-paytrail-ppa.php:1995
+#: includes/class-wc-gateway-paytrail-ppa.php:2001
 msgid "Paytrail token payment failed with %s %s: %s"
 msgstr "Paytrailin korttimaksu epäonnistui kortilla %s %s: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1664
+#: includes/class-wc-gateway-paytrail-ppa.php:1995
 msgid "token payment requires 3D Secure authentication"
 msgstr "korttimaksu vaatii 3D Secure tunnistaumisen"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1678
+#: includes/class-wc-gateway-paytrail-ppa.php:2009
 msgid "Unknown error charging token"
 msgstr "tuntematon virhe korttia veloittaessa"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1739
-msgid "Paytrail payment refunded. Refund amount: %s."
-msgstr "Paytrail-maksu palautettu. Summa: %s."
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1743
-msgid "Paytrail payment refund pending. Refund amount: %s."
-msgstr "Paytrail-maksu palautettu. Summa: %s."
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1747
-msgid "Error refunding Paytrail payment: invalid status %s"
-msgstr "Virhe palauttaessa Paytrail-maksua. väärä vastauskoodi %s"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1750
-msgid "Error refunding Paytrail payment. Something went wrong."
-msgstr "Virhe palauttaessa Paytrail-maksua. Tuntematon virhe."
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1752
-msgid ""
-"Error refunding Paytrail payment: used payment method provider does not "
-"support refunds."
-msgstr ""
-"Virhe palauttaessa Paytrail-maksua: maksutapa ei tue maksunpalautuksia."
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1754
-msgid "Error refunding Paytrail payment: invalid response code %s"
-msgstr "Virhe palauttaessa Paytrail-maksua. Virheellinen vastauskoodi %s"
-
-#: includes/class-wc-gateway-paytrail-ppa.php:1757
+#: includes/class-wc-gateway-paytrail-ppa.php:2047
+#: includes/class-wc-gateway-paytrail-ppa.php:2081
 msgid "Error refunding Paytrail payment: %s"
 msgstr "Virhe palauttaessa Paytrail-maksua: %s"
 
-#: includes/class-wc-gateway-paytrail-ppa.php:1874
+#: includes/class-wc-gateway-paytrail-ppa.php:2066
+msgid "Paytrail payment refunded. Refund amount: %s."
+msgstr "Paytrail-maksu palautettu. Summa: %s."
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2070
+msgid "Paytrail payment refund pending. Refund amount: %s."
+msgstr "Paytrail-maksu palautettu. Summa: %s."
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2108
+msgid "refund totals does not match (%.2f vs %.2f)"
+msgstr "palautuksen summat eivät täsmää (%.2f vs %.2f)"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2112
+msgid "refund object not found"
+msgstr "palautusta ei löytynyt"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2150
+msgid "item total does not match refund total (%.2f vs %.2f)"
+msgstr "tilausrivien summat eivät täsmää palautuksen summaan (%.2f vs %.2f)"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2179
+msgid "Captured %s invoice"
+msgstr "Aktivoitu %s lasku"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2186
+msgid "Failed to capture %s invoice: %s (%s)"
+msgstr "%s laskun aktivointi epäonnistui: %s (%s)"
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2201
+msgid "Order not capturable."
+msgstr "Lasku ei aktivoitavissa."
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2205
+msgid "Order already captured."
+msgstr "Lasku on jo aktivoitu."
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2209
+msgid "Order does not have transaction ID."
+msgstr "Tilauksella ei ole maksun tunnusta."
+
+#: includes/class-wc-gateway-paytrail-ppa.php:2358
+#: includes/views/invoice-status.html.php:21
 msgid "N/A"
 msgstr "N/A"
 
@@ -414,11 +486,31 @@ msgstr "Tiedosto olemassa"
 msgid "Save settings to generate verification file"
 msgstr "Tallenna asetukset luodaksesi verifiointitiedoston"
 
+#: includes/views/invoice-status.html.php:3
+msgid "%s status:"
+msgstr "%s tila:"
+
+#: includes/views/invoice-status.html.php:6
+msgid "Captured"
+msgstr "Aktivoitu"
+
+#: includes/views/invoice-status.html.php:8
+msgid "Pending capture"
+msgstr "Odottaa aktivointia"
+
+#: includes/views/invoice-status.html.php:16
+msgid "Capture now &raquo;"
+msgstr "Aktivoi nyt &raquo;"
+
+#: includes/views/invoice-status.html.php:19
+msgid "Failed"
+msgstr "Epäonnistui"
+
 #: includes/views/ppa-redirect-form-apple-pay.html.php:2
 msgid "Click the button below to complete your purchase with Apple Pay:"
 msgstr "Klikkaa alla olevaa painiketta maksaaksesi Apple Paylla:"
 
-#: includes/views/ppa-redirect-form-apple-pay.html.php:44
+#: includes/views/ppa-redirect-form-apple-pay.html.php:51
 #: includes/views/ppa-redirect-form.html.php:20
 msgid "Error occurred. Please try again shortly."
 msgstr "Virhe yhdistettäessä. Yritä hetken kuluttua uudelleen. "
@@ -446,23 +538,23 @@ msgid ""
 "Please note that payment method will be updated to all of your subscriptions."
 msgstr "Huom! Maksukortti päivitetään kaikkiin toistuviin tilauksiisi."
 
-#: wc-paytrail.php:189
+#: wc-paytrail.php:204
 msgid "Check API credentials"
 msgstr "Tarkista kauppiastunnukset"
 
-#: wc-paytrail.php:190
+#: wc-paytrail.php:205
 msgid "Valid credentials"
 msgstr "Kauppiastunnukset ovat oikein"
 
-#: wc-paytrail.php:213
+#: wc-paytrail.php:228
 msgid "Access denied"
 msgstr "Pääsy kielletty"
 
-#: wc-paytrail.php:246
+#: wc-paytrail.php:261
 msgid "Merchant ID or secret is invalid."
 msgstr "Kauppias ID tai -varmenne on väärin."
 
-#: wc-paytrail.php:256
+#: wc-paytrail.php:271
 msgid ""
 "Transaction-specific settlements are enabled at Paytrail. Please enable "
 "transaction-specific settlements below as well in order to use the plugin."
@@ -470,11 +562,11 @@ msgstr ""
 "Yksittäistilitykset on kytketty päälle Paytrailin puolelta. Ota käyttöön "
 "yksittäistilitykset myös alla olevasta asetuksesta."
 
-#: wc-paytrail.php:266 wc-paytrail.php:510
+#: wc-paytrail.php:281 wc-paytrail.php:556
 msgid "Invalid response code: %s"
 msgstr "virheellinen vastauskoodi: %s"
 
-#: wc-paytrail.php:376
+#: wc-paytrail.php:391
 msgid ""
 "Paytrail requires at least two decimals (cents) to be able to calculate "
 "taxes correctly. Please check <a href=\"%s\"><em>WooCommerce > Settings > "
@@ -484,7 +576,7 @@ msgstr ""
 "oikein. Tarkista <a href=\"%s\"><em>WooCommerce > Asetukset > Yleiset > "
 "Valuutta-asetukset > Desimaalien lukumäärä</em></a>"
 
-#: wc-paytrail.php:387
+#: wc-paytrail.php:402
 msgid ""
 "<em>Checkout Finland for WooCommerce</em> / <em>OP Payment Service for "
 "WooCommerce</em> plugin is activated which interferes with <em>WooCommerce "
@@ -495,7 +587,7 @@ msgstr ""
 "yhteensopivuusongelmia <em>WooCommerce Paytrail</em> lisäosan kanssa. Poista "
 "toinen lisäosista käytöstä."
 
-#: wc-paytrail.php:393
+#: wc-paytrail.php:408
 msgid ""
 "<em>Paytrail for WooCommerce</em> plugin is activated which interferes with "
 "<em>WooCommerce Paytrail</em> plugin. Please deactivate or remove the "
@@ -505,33 +597,88 @@ msgstr ""
 "yhteensopivuusongelmia <em>WooCommerce Paytrail</em> lisäosan kanssa. Poista "
 "toinen lisäosista käytöstä."
 
-#: wc-paytrail.php:473
+#: wc-paytrail.php:488
+msgid "Failed to fetch verification file from Paytrail. Response code: %s"
+msgstr "Verifiointitiedostoa ei voitu hakea Paytraililta. Vastauskoodi: %s"
+
+#: wc-paytrail.php:510
 msgid "Could not create .well-known directory"
 msgstr "Kansiota .well-known ei pystytty luomaan"
 
-#: wc-paytrail.php:481
-msgid "Failed to copy verification file"
-msgstr "Tiedoston kopiointi epäonnistui"
+#: wc-paytrail.php:523
+msgid "Failed to save verification file"
+msgstr "Tiedoston tallennus epäonnistui"
 
-#: wc-paytrail.php:507
-msgid "Verification file exists but contents are invalid"
-msgstr "Tiedosto on olemassa, mutta sen sisältö on virheellinen"
+#: wc-paytrail.php:528
+msgid "Failed to find verification file"
+msgstr "Tiedostoa ei löytynyt"
 
-#: wc-paytrail.php:513
+#: wc-paytrail.php:553
+msgid "Verification file exists but it is empty"
+msgstr "Tiedosto on olemassa, mutta sen sisältö on tyhjä"
+
+#: wc-paytrail.php:560
 msgid "Verification file could not be accessed: %s"
 msgstr "Tiedostoa ei voitu ladata: %s"
 
-#: wc-paytrail.php:516
-msgid "Unknown error"
-msgstr "Tuntematon virhe"
-
-#: wc-paytrail.php:533
+#: wc-paytrail.php:577
 msgid "File does not exist"
 msgstr "Tiedostoa ei ole olemassa"
 
-#: wc-paytrail.php:539
+#: wc-paytrail.php:583
 msgid "File exists but was generated for another domain"
 msgstr "Tiedosto on olemassa, mutta se on luotu toiselle verkkotunnukselle"
+
+#: wc-paytrail.php:694 wc-paytrail.php:703
+msgid "Permission denied"
+msgstr "Pääsy kielletty"
+
+#: wc-paytrail.php:714
+msgid "Order not found"
+msgstr "Tilausta ei löytynyt"
+
+#: wc-paytrail.php:726
+msgid "Invoice captured successfully."
+msgstr "Lasku aktivoitu onnistuneesti."
+
+#~ msgid "Select when Walley and Klarna invoices are captured"
+#~ msgstr "Valitse milloin Walleyn ja Klarnan laskut aktivoidaan"
+
+#~ msgid "Pending invoice capture"
+#~ msgstr "Odottaa laskun aktivointia"
+
+#~ msgid "Awaiting payment"
+#~ msgstr "Odottaa maksua"
+
+#~ msgid "Delayed payment"
+#~ msgstr "Viivästynyt maksu"
+
+#~ msgid "Invoice canceled by the payment provider"
+#~ msgstr "Lasku on peruutettu maksupalveluntarjoajan toimesta"
+
+#~ msgid "Payment mode"
+#~ msgstr "Maksaminen"
+
+#~ msgid "Payment page"
+#~ msgstr "Maksusivu"
+
+#~ msgid "Error refunding Paytrail payment: invalid status %s"
+#~ msgstr "Virhe palauttaessa Paytrail-maksua. väärä vastauskoodi %s"
+
+#~ msgid "Error refunding Paytrail payment. Something went wrong."
+#~ msgstr "Virhe palauttaessa Paytrail-maksua. Tuntematon virhe."
+
+#~ msgid ""
+#~ "Error refunding Paytrail payment: used payment method provider does not "
+#~ "support refunds."
+#~ msgstr ""
+#~ "Virhe palauttaessa Paytrail-maksua: maksutapa ei tue maksunpalautuksia."
+
+#~ msgid "Error refunding Paytrail payment: invalid response code %s"
+#~ msgstr "Virhe palauttaessa Paytrail-maksua. Virheellinen vastauskoodi %s"
+
+#~ msgid "Unknown error"
+#~ msgstr "Tuntematon virhe"
 
 #~ msgid "Online Banking"
 #~ msgstr "Verkkopankit"
@@ -587,9 +734,6 @@ msgstr "Tiedosto on olemassa, mutta se on luotu toiselle verkkotunnukselle"
 
 #~ msgid "Others"
 #~ msgstr "Muut"
-
-#~ msgid "Error processing payment: totals do not match (%.2f vs %.2f)"
-#~ msgstr "Virhe maksua suorittaessa: summat eivät täsmää (%.2f vs %.2f)"
 
 #~ msgid ""
 #~ "Unable to complete the payment. Please try again or choose another "

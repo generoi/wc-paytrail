@@ -4,13 +4,13 @@
 Plugin Name: WooCommerce Paytrail
 Plugin URI:  https://markup.fi
 Description: Paytrail payment gateway integration for WooCommerce.
-Version:     2.6.2
+Version:     2.7.0
 Author:      Lauri Karisola / Markup.fi
 Author URI:  https://markup.fi
 Text Domain: wc-paytrail
 Domain Path: /languages
-WC requires at least: 7.0.0
-WC tested up to: 9.0.0
+WC requires at least: 8.0.0
+WC tested up to: 10.0.0
 */
 
 /**
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Plugin version
  */
 if ( ! defined( 'WC_PAYTRAIL_VERSION' ) ) {
-	define( 'WC_PAYTRAIL_VERSION', '2.6.2' );
+	define( 'WC_PAYTRAIL_VERSION', '2.7.0' );
 }
 
 /**
@@ -92,6 +92,21 @@ class Markup_Paytrail {
 
 		// Display settlement reference in the order details
 		add_action( 'woocommerce_admin_order_data_after_billing_address', [ $this, 'display_settlement_ref' ], 10, 1 );
+
+		// Capture invoice through user action
+		add_action( 'wp_ajax_paytrail_capture_invoice', [ $this, 'ajax_capture_invoice' ] );
+
+		// Capture invoice based on status change
+		add_action( 'woocommerce_order_status_changed', [ $this, 'maybe_capture_invoice' ], 10, 4 );
+
+		// Display invoice status
+		add_action( 'woocommerce_admin_order_data_after_billing_address', [ $this, 'display_invoice_status' ], 10, 1 );
+
+		// Display provider in admin
+		add_filter( 'woocommerce_gateway_title', [ $this, 'display_provider_admin' ], 10, 2 );
+
+		// Display provider in order item totals
+		add_filter( 'woocommerce_get_order_item_totals', [ $this, 'display_provider_order_item_totals' ], 10, 2 );
 
 		// Put Paytrail as the first payment method in the list
 		register_activation_hook( __FILE__, [ __CLASS__, 'reorder_payment_gateways' ] );
@@ -456,10 +471,32 @@ class Markup_Paytrail {
 	}
 
 	/**
+	 * Get Apple Pay verification file from Paytrail
+	 */
+	public static function get_ap_ver_file() {
+		$response = wp_remote_get( 'https://pay.paytrail.com/.well-known/apple-developer-merchantid-domain-association', [
+			'timeout' => 10
+		] );
+
+		if ( ! is_wp_error( $response ) ) {
+			$code = wp_remote_retrieve_response_code( $response );
+			$body = wp_remote_retrieve_body( $response );
+
+			if ( $code === 200 ) {
+				return $body;
+			} else {
+				return new WP_Error( 'wc_paytrail_ap_file_response_error', sprintf( __( 'Failed to fetch verification file from Paytrail. Response code: %s', 'wc-paytrail' ), $code ) );
+			}
+		}
+
+		// Return error object
+		return $response;
+	}
+
+	/**
 	 * Add Apple Pay verification file
 	 */
 	public static function add_ap_ver_file() {
-		$source_file = sprintf( '%svendor/applepay/apple-developer-merchantid-domain-association', WC_PAYTRAIL_PATH );
 		$dest_file = sprintf( '%s.well-known/apple-developer-merchantid-domain-association', ABSPATH );
 		$well_known_dir = sprintf( '%s.well-known', ABSPATH );
 
@@ -473,12 +510,22 @@ class Markup_Paytrail {
 			return new WP_Error( 'wc_paytrail_ap_file_dir_error', __( 'Could not create .well-known directory', 'wc-paytrail' ) );
 		}
 
-		// Copy verification file
-		copy( $source_file, $dest_file );
+		// Get file
+		$contents = self::get_ap_ver_file();
+		if ( is_wp_error( $contents ) ) {
+			return $contents;
+		}
 
-		// Check that file was copied
+		// Save file
+		$result = file_put_contents( $dest_file, $contents );
+
+		if ( ! $result ) {
+			return new WP_Error( 'wc_paytrail_ap_file_put_error', __( 'Failed to save verification file', 'wc-paytrail' ) );
+		}
+
+		// Double check that file was created
 		if ( ! file_exists( $dest_file ) ) {
-			return new WP_Error( 'wc_paytrail_ap_file_copy_error', __( 'Failed to copy verification file', 'wc-paytrail' ) );
+			return new WP_Error( 'wc_paytrail_ap_file_copy_error', __( 'Failed to find verification file', 'wc-paytrail' ) );
 		}
 
 		return true;
@@ -495,25 +542,22 @@ class Markup_Paytrail {
 
 		if ( ! is_wp_error( $response ) ) {
 			$code = wp_remote_retrieve_response_code( $response );
-			$body = trim( strval( wp_remote_retrieve_body( $response ) ) );
-			$hash = 'c752669e49dd301780e7ba92ecdc39df';
+			$body = strval( wp_remote_retrieve_body( $response ) );
 
 			if ( $code === 200 ) {
-				if ( md5( $body ) === $hash ) {
+				if ( ! empty( $body ) ) {
 					update_option( 'wc_paytrail_ap_file_site_url', get_site_url() );
 
 					return true;
 				} else {
-					return new WP_Error( 'wc_paytrail_ap_file_invalid', __( 'Verification file exists but contents are invalid', 'wc-paytrail' ) );
+					return new WP_Error( 'wc_paytrail_ap_file_invalid', __( 'Verification file exists but it is empty', 'wc-paytrail' ) );
 				}
 			} else {
 				return new WP_Error( 'wc_paytrail_ap_file_invalid', sprintf( __( 'Invalid response code: %s', 'wc-paytrail' ), $code ) );
 			}
-		} else {
-			return new WP_Error( 'wc_paytrail_ap_file_invalid', sprintf( __( 'Verification file could not be accessed: %s', 'wc-paytrail' ), $response->get_error_message() ) );
 		}
 
-		return new WP_Error( 'wc_paytrail_ap_file_invalid', __( 'Unknown error', 'wc-paytrail' ) );
+		return new WP_Error( 'wc_paytrail_ap_file_invalid', sprintf( __( 'Verification file could not be accessed: %s', 'wc-paytrail' ), $response->get_error_message() ) );
 	}
 
 	/**
@@ -547,6 +591,205 @@ class Markup_Paytrail {
 	 */
 	public static function ap_ver_file_url() {
 		return sprintf( '%s/.well-known/apple-developer-merchantid-domain-association', rtrim( get_site_url(), '/' ) );
+	}
+
+	/**
+	 * Display provider in admin
+	 */
+	public function display_provider_admin( $title, $id ) {
+		if ( $id !== 'paytrail_ppa' || ! is_admin() ) {
+			return $title;
+		}
+
+		$is_order_hpos = isset( $_GET['page'], $_GET['action'], $_GET['id'] ) && $_GET['page'] === 'wc-orders' && $_GET['action'] === 'edit';
+		$is_order_non_hpos = isset( $_GET['post'], $_GET['action'] ) && $_GET['action'] === 'edit';
+
+		if ( $is_order_hpos || $is_order_non_hpos ) {
+			global $theorder;
+
+			if ( $theorder && is_a( $theorder, 'WC_Order' ) && is_callable( [ $theorder, 'get_meta' ] ) ) {
+				$provider = $theorder->get_meta( '_wc_paytrail_provider_title', true );
+
+				if ( $provider ) {
+					$title = sprintf( '%s (%s)', $title, $provider );
+				}
+			}
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Display provider in order item totals
+	 * 
+	 * Payment method in order item totals is displayed in emails,
+	 * My Account pages and other places where the order details
+	 * can be viewed
+	 */
+	public function display_provider_order_item_totals( $rows, $order ) {
+		if (
+			is_array( $rows ) &&
+			isset( $rows['payment_method'] ) &&
+			is_a( $order, 'WC_Order' ) &&
+			is_callable( [ $order, 'get_payment_method' ] ) &&
+			is_callable( [ $order, 'get_meta' ] ) &&
+			$order->get_payment_method() === 'paytrail_ppa'
+		) {
+			$provider = $order->get_meta( '_wc_paytrail_provider_title', true );
+
+			if ( $provider ) {
+				$rows['payment_method']['value'] = sprintf( '%s (%s)', $rows['payment_method']['value'], $provider );
+			}
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Display invoice status
+	 */
+	public function display_invoice_status( $order, $echo = true ) {
+		// Ensure this is paid with Paytrail
+		$txn_id = $order->get_meta( '_wc_paytrail_transaction_id' );
+		if ( empty( $txn_id ) ) {
+			return;
+		}
+
+		// Check that the order has invoice provider and manual activations
+		// were enabled
+		$gateway = self::get_gateway();
+		if ( ! $gateway->is_capturable( $order ) ) {
+			return;
+		}
+
+		$provider_title = $order->get_meta( '_wc_paytrail_provider_title' );
+		$status = $order->get_meta( '_paytrail_ppa_invoice_manual_capture' );
+
+		$capture_url = add_query_arg( [
+			'action' => 'paytrail_capture_invoice',
+			'nonce' => wp_create_nonce( 'paytrail_capture_invoice' ),
+		], admin_url( 'admin-ajax.php' ) );
+
+		ob_start();
+
+		include 'includes/views/invoice-status.html.php';
+
+		$output = ob_get_clean();
+
+		if ( $echo ) {
+			echo $output;
+		} else {
+			return $output;
+		}
+	}
+
+	/**
+	 * Capture invoice through AJAX request
+	 */
+	public function ajax_capture_invoice() {
+		$nonce = $_GET['nonce'];
+		if ( ! wp_verify_nonce( $nonce, 'paytrail_capture_invoice' ) ) {
+			wp_send_json( [
+				'status' => 'error',
+				'msg' => __( 'Permission denied', 'wc-paytrail' ),
+				'error_code' => 'invalid_nonce'
+			], 403 );
+			die;
+		}
+
+		if ( ! current_user_can( 'edit_shop_orders' ) ) {
+			wp_send_json( [
+				'status' => 'error',
+				'msg' => __( 'Permission denied', 'wc-paytrail' ),
+				'error_code' => 'unauthorized'
+			], 403 );
+			die;
+		}
+
+		$order = wc_get_order( absint( $_POST['order_id'] ) );
+
+		if ( ! $order ) {
+			wp_send_json( [
+				'status' => 'error',
+				'msg' => __( 'Order not found', 'wc-paytrail' ),
+			], 422 );
+		}
+
+		$gateway = self::get_gateway();
+		$result = $gateway->process_capture_invoice( $order );
+
+		if ( $result === true ) {
+			$output = $this->display_invoice_status( $order, false );
+
+			wp_send_json( [
+				'status' => 'ok',
+				'msg' => __( 'Invoice captured successfully.', 'wc-paytrail' ),
+				'html' => $output,
+			], 200 );
+		}
+
+		wp_send_json( [
+			'status' => 'error',
+			'msg' => $result->get_error_message(),
+		], 422 );
+	}
+
+	/**
+	 * Maybe capture invoice
+	 * 
+	 * @param int $order_id
+	 * @param string $from
+	 * @param string $to
+	 * @param WC_Order $order
+	 * 
+	 * @return void
+	 */
+	public function maybe_capture_invoice( $order_id, $from, $to, $order ) {
+		// Ensure this is paid with Paytrail
+		$txn_id = $order->get_meta( '_wc_paytrail_transaction_id' );
+		if ( empty( $txn_id ) ) {
+			return;
+		}
+		
+		// Check that we have status-based trigger
+		$settings = get_option( 'woocommerce_paytrail_ppa_settings', [] );
+		$trigger = isset( $settings['invoice_capture'] ) ? $settings['invoice_capture'] : '';
+		if ( strpos( $trigger, 'status_' ) === false ) {
+			return;
+		}
+
+		// Check that order is capturable (invoice provider + enabled manual captures)
+		$gateway = self::get_gateway();
+		if ( ! $gateway->is_capturable( $order ) ) {
+			return;
+		}
+
+		// Check that we haven't captured the order already
+		if ( $order->get_meta( '_paytrail_ppa_invoice_manual_capture' ) === 'captured' ) {
+			return;
+		}
+
+		// Check for status and capture
+		if ( strpos( $trigger, 'status_' ) === 0 ) {
+			$trigger_status = \Automattic\WooCommerce\Utilities\OrderUtil::remove_status_prefix( substr( $trigger, 7 ) );
+			$to_status = \Automattic\WooCommerce\Utilities\OrderUtil::remove_status_prefix( $to );
+
+			if ( $trigger_status === $to_status ) {
+				$gateway->process_capture_invoice( $order );
+			}
+		}
+	}
+
+	/**
+	 * Get gateway
+	 * 
+	 * @return WC_Gateway_Paytrail_Ppa
+	 */
+	public static function get_gateway() {
+		$gateway_controller = WC_Payment_Gateways::instance();
+		$gateways = $gateway_controller->payment_gateways();
+
+		return isset( $gateways['paytrail_ppa'] ) ? $gateways['paytrail_ppa'] : false;
 	}
 
 	/**

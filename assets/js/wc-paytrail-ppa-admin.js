@@ -89,8 +89,72 @@ jQuery(document).ready(function ($) {
       $('input#woocommerce_paytrail_ppa_transaction_settlement_enable').change(function (e) {
         $('.paytrail-ppa-settlement-field').closest('tr').toggle($(this).is(':checked'));
       }).trigger('change');
+
+      // Invoice capture
+      $('select#woocommerce_paytrail_ppa_invoice_capture').change(function (e) {
+        $('select#woocommerce_paytrail_ppa_invoice_capture_initial_status').closest('tr').toggle($(this).val() !== '');
+      }).trigger('change');
     }
   };
 
   wcPaytrailPpaSettings.init();
+
+  /**
+   * Invoice functions
+   */
+  var wcPaytrailInvoice = {
+    init: function() {
+      this.triggerCapture();
+    },
+
+    /**
+     * Trigger capture
+     */
+    triggerCapture: function() {
+      var self = this;
+
+      $( document ).on( 'click', 'a#wc-paytrail-capture-order', function( e ) {
+        e.preventDefault();
+
+        self.capture( $( this ).data( 'url' ), $( this ).data( 'order-id') );
+      } );
+    },
+
+    /**
+     * Capture invoice via AJAX
+     */
+    capture: function( url, orderId ) {
+      jQuery.ajax({
+        url: url,
+        data: {
+          order_id: orderId
+        },
+        method: 'POST',
+        beforeSend: function() {
+          $( '.wc-paytrail-throbber' ).remove();
+          $( '.wc-paytrail-error' ).remove();
+
+          $( '.wc-paytrail-label' ).after( '<span class="wc-paytrail-throbber processing"></span>' );
+          $( '#wc-paytrail-capture-order' ).hide();
+        },
+        success: function( response ) {
+          $( '.wc-paytrail-throbber' ).remove();
+
+          $( '.wc-paytrail-invoice-status' ).replaceWith( response.html );
+
+          $( '.wc-paytrail-invoice-status .wc-paytrail-label' ).after( '<span class="wc-paytrail-throbber ok"><span class="dashicons dashicons-yes"></span></span>' );
+        },
+        error: function( response ) {
+          $( '.wc-paytrail-throbber' ).remove();
+
+          $( '#wc-paytrail-capture-order' ).show();
+
+          $( '#wc-paytrail-capture-order' ).after( '<span class="wc-paytrail-error"><span class="dashicons dashicons-no"></span>' + response.responseJSON.msg + '</span>' );
+        },
+        complete: function() {
+        }
+      });
+    }
+  };
+  wcPaytrailInvoice.init();
 });

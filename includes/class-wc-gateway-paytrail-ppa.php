@@ -30,6 +30,8 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 	public $mode;
 	public $display_terms;
 	public $enable_apple_pay;
+	public $invoice_capture = '';
+	public $invoice_capture_initial_status = 'wc-on-hold';
 	public $transaction_settlement_prefix;
 	public $transaction_settlement_enable;
 	public $polylang_fix;
@@ -40,10 +42,14 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 	 */
 	public function __construct() {
 		$this->id = 'paytrail_ppa';
-		#$this->icon = WP_PLUGIN_URL . '/' . plugin_basename( dirname( __FILE__ ) ) . '/logo.png';
 		$this->has_fields = true;
 		$this->method_title = __( 'Paytrail', 'wc-paytrail' );
 		$this->method_description = '';
+
+		// Only show icon in admin
+		if ( function_exists( 'is_checkout' ) && ! is_checkout() ) {
+			$this->icon = WC_PAYTRAIL_PLUGIN_URL . 'assets/images/paytrail.svg';
+		}
 
 		$this->init_form_fields();
 		$this->init_settings();
@@ -59,6 +65,8 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 		$this->enable_apple_pay = $this->get_option( 'enable_apple_pay' ) === 'yes';
 		$this->transaction_settlement_prefix = $this->get_option( 'transaction_settlement_prefix', '10' );
 		$this->transaction_settlement_enable = $this->get_option( 'transaction_settlement_enable', 'no' ) === 'yes';
+		$this->invoice_capture = $this->get_option( 'invoice_capture', '' );
+		$this->invoice_capture_initial_status = $this->get_option( 'invoice_capture_initial_status', 'wc-on-hold' );
 		$this->polylang_fix = $this->get_option( 'polylang_fix', 'no' ) === 'yes';
 
 		$this->paytrail_api_url = 'https://services.paytrail.com';
@@ -79,6 +87,7 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 	public function init_form_fields() {
 		// Instructions for activating Apple Pay
 		$apple_pay_url = 'https://support.paytrail.com/hc/fi/articles/4412478752017--Uusi-Paytrail-Apple-Pay-';
+		$bypass_url = 'https://markup.fi/wp-content/uploads/2025/11/woocommerce-paytrail-bypass-comparison.png';
 
 		$this->form_fields = array(
 			'enabled' => array(
@@ -97,26 +106,10 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 				'type' => 'text',
 				'default' => '', # TEST: SAIPPUAKAUPPIAS
 			),
-			'mode' => array(
-				'title' => __( 'Payment mode', 'wc-paytrail' ),
-				'type' => 'select',
-				'default' => 'default',
-				'options' => array(
-					'default' => __( 'Payment page', 'wc-paytrail' ),
-					'bypass' => __( 'Payment page bypass', 'wc-paytrail' ),
-				)
-			),
-			'language' => array(
-				'title' => __( 'Language', 'wc-paytrail' ),
-				'type' => 'select',
-				'default' => 'auto',
-				'options' => array(
-					'auto' => __( 'Site language (automatic)', 'wc-paytrail' ),
-					'FI' => __( 'Finnish', 'wc-paytrail' ),
-					'SV' => __( 'Swedish', 'wc-paytrail' ),
-					'EN' => __( 'English', 'wc-paytrail' )
-				)
-			),
+			'checkout' => [
+				'title' => __( 'Checkout', 'wc-paytrail' ),
+				'type' => 'title',
+			],
 			'title' => array(
 				'title' => __( 'Title', 'wc-paytrail' ),
 				'type' => 'text',
@@ -130,6 +123,27 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 				'default' => '',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'wc-paytrail' ),
 				'desc_tip' => true,
+			),
+			'mode' => [
+				'title' => __( 'Payment page bypass', 'wc-paytrail' ),
+				'type' => 'select',
+				'description' => sprintf( __( 'With the payment page bypass enabled, customers select their payment method during checkout. When disabled, they are redirected to Paytrail to choose their payment method. <a href="%s" target="_blank">View comparison &raquo;</a>', 'wc-paytrail' ), $bypass_url ),
+				'default' => 'default',
+				'options' => [
+					'bypass' => __( 'Yes', 'wc-paytrail' ),
+					'default' => __( 'No', 'wc-paytrail' ),
+				]
+			],
+			'language' => array(
+				'title' => __( 'Language', 'wc-paytrail' ),
+				'type' => 'select',
+				'default' => 'auto',
+				'options' => array(
+					'auto' => __( 'Site language (automatic)', 'wc-paytrail' ),
+					'FI' => __( 'Finnish', 'wc-paytrail' ),
+					'SV' => __( 'Swedish', 'wc-paytrail' ),
+					'EN' => __( 'English', 'wc-paytrail' )
+				)
 			),
 			'display_terms' => array(
 				'title' => __( 'Display terms', 'wc-paytrail' ),
@@ -154,6 +168,23 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			'apple_pay_verification_file' => [
 				'title' => __( 'Verification File', 'wc-paytrail' ),
 				'type' => 'wc_paytrail_apple_pay_file',
+			],
+			'invoice_title' => [
+				'title' => __( 'Invoices (Walley & Klarna)', 'wc-paytrail' ),
+				'type' => 'title',
+			],
+			'invoice_capture' => [
+				'title' => __( 'Capture invoices', 'wc-paytrail' ),
+				'description' => __( 'Select when Walley and Klarna invoices are captured. <a href="https://markup.fi/guide/woocommerce-paytrail-ohje/" target="_blank">View instructions &raquo;</a>', 'wc-paytrail' ),
+				'type' => 'select',
+				'default' => '',
+				'options' => $this->get_capture_trigger_options(),
+			],
+			'invoice_capture_initial_status' => [
+				'title' => __( 'Order status for uncaptured orders', 'wc-paytrail' ),
+				'type' => 'select',
+				'default' => 'wc-on-hold',
+				'options' => $this->get_capture_initial_status_options(),
 			],
 			'transaction_settlement_title' => [
 				'title' => __( 'Transaction-specific settlements', 'wc-paytrail' ),
@@ -188,6 +219,71 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 				'description' => __( 'Check this if <em>Order received</em> page is in wrong language or it returns <em>404 Not Found</em> error.', 'wc-paytrail' ),
 			];
 		}
+
+		/**
+		 * Remove legacy Apple Pay settings if this is a new installation
+		 * 
+		 * $options['enable_apple_pay'] is set and is either "yes" or "no"
+		 * if we have shown this setting to the user before. It's unset
+		 * if this is a new installation
+		 */
+		$options = get_option( 'woocommerce_paytrail_ppa_settings', [] );
+		if ( ! is_array( $options ) || ! isset( $options['enable_apple_pay'] ) ) {
+			unset(
+				$this->form_fields['apple_pay_title'],
+				$this->form_fields['enable_apple_pay'],
+				$this->form_fields['apple_pay_verification_file']
+			);
+		}
+	}
+
+	/**
+	 * Get capture trigger options (certain internal statuses + all custom statuses)
+	 */
+	public function get_capture_trigger_options() {
+		$statuses = wc_get_order_statuses();
+
+		unset(
+			$statuses['wc-pending'],
+			$statuses['wc-on-hold'],
+			$statuses['wc-cancelled'],
+			$statuses['wc-refunded'],
+			$statuses['wc-failed'],
+			$statuses['wc-checkout-draft'],
+		);
+
+		$options = [
+			'' => __( 'Automatically during checkout (default)', 'wc-paytrail' ),
+			'manual' => __( 'Manually from admin', 'wc-paytrail' ),
+		];
+		foreach ( $statuses as $id => $label ) {
+			$options['status_' . $id] = sprintf( __( 'On status: %s', 'wc-paytrail' ), $label );
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get options for initial status for manual
+	 * invoice captures
+	 */
+	public function get_capture_initial_status_options() {
+		$statuses = wc_get_order_statuses();
+
+		unset(
+			$statuses['wc-pending'],
+			$statuses['wc-cancelled'],
+			$statuses['wc-completed'],
+			$statuses['wc-refunded'],
+			$statuses['wc-failed'],
+			$statuses['wc-checkout-draft'],
+		);
+
+		foreach ( $statuses as $id => $label ) {
+			$options[$id] = $label;
+		}
+
+		return $options;
 	}
 
 	/**
@@ -350,6 +446,8 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 
 	/**
 	 * Get payment methods for bypass
+	 * 
+	 * @return array
 	 */
 	public function get_providers( $amount ) {
 		if ( $this->providers ) {
@@ -406,19 +504,36 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 
 		// Add Apple Pay
 		if ( $this->enable_apple_pay ) {
-			$ap_method = (object) [
-				'id' => 'apple_pay',
-				'name' => 'Apple Pay',
-				'group' => 'applepay',
-				'icon' => sprintf( '%sassets/images/apple-pay.svg', WC_PAYTRAIL_PLUGIN_URL ),
-				'svg' => sprintf( '%sassets/images/apple-pay.svg', WC_PAYTRAIL_PLUGIN_URL ),
-			];
+			/**
+			 * @legacy
+			 * Nowadays Apple Pay is a regular payment method and it doesn't need separate support.
+			 * Let's keep this for now for legacy support if it's not present as a regular method
+			 */
+			$ap_is_regular_method = false;
+			if ( isset( $groups['mobile'] ) ) {
+				foreach ( $groups['mobile']->providers as $provider ) {
+					if ( $provider->id === 'apple-pay' ) {
+						$ap_is_regular_method = true;
+						break;
+					}
+				}
+			}
 
-			$groups['applepay'] = (object) [
-				'id' => 'applepay',
-				'name' => __( 'Apple Pay', 'wc-paytrail' ),
-				'providers' => [ $ap_method ],
-			];
+			if ( ! $ap_is_regular_method ) {
+				$ap_method = (object) [
+					'id' => 'apple_pay',
+					'name' => 'Apple Pay',
+					'group' => 'applepay',
+					'icon' => sprintf( '%sassets/images/apple-pay.svg', WC_PAYTRAIL_PLUGIN_URL ),
+					'svg' => sprintf( '%sassets/images/apple-pay.svg', WC_PAYTRAIL_PLUGIN_URL ),
+				];
+	
+				$groups['applepay'] = (object) [
+					'id' => 'applepay',
+					'name' => __( 'Apple Pay', 'wc-paytrail' ),
+					'providers' => [ $ap_method ],
+				];
+			}
 		}
 
 		// Sort providers
@@ -688,6 +803,11 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 		// Store reference for future uses
 		$order->update_meta_data( '_paytrail_ppa_reference', $body['reference'] );
 
+		// Store information about manual activation
+		if ( isset( $body['manualInvoiceActivation'] ) && $body['manualInvoiceActivation'] ) {
+			$order->update_meta_data( '_paytrail_ppa_invoice_manual_capture', 'created' );
+		}
+
 		// Store information that transaction-specific settlement was used
 		if ( $this->transaction_settlement_enable ) {
 			$order->update_meta_data( '_paytrail_ppa_transaction_settlement', true );
@@ -849,6 +969,10 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			'cancel' => $this->get_api_url( $order ),
 		);
 		$body['callbackDelay'] = 10; // Avoid simultaneous requests from both customer and Paytrail server to the thank you page which would lead to duplicate payment confirmations
+
+		if ( ! empty( $this->invoice_capture ) ) {
+			$body['manualInvoiceActivation'] = true;
+		}
 
 		// Add token
 		if ( $token ) {
@@ -1246,25 +1370,6 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 		$output = ob_get_clean();
 
 		echo $output;
-
-		/**
-		 * Fix for WooCommerce bug which removes existing line items
-		 * and create new ones which causes inconsistencies with order
-		 * item IDs. This is caused by incorrectly updating the order
-		 * from cart after it has already been processed.
-		 * 
-		 * We could empty cart as an alternative solution but that would
-		 * not allow customer to navigate back with browser and retain
-		 * the cart
-		 * 
-		 * Source of bug:
-		 * woocommerce/src/StoreApi/Utilities/OrderController.php:107 / update_line_items_from_cart
-		 * This should not be run here but it is due to funky WooCommerce
-		 * logic but we can avoid it by marking the order as not needing payment
-		 * 
-		 * This is present at least in WooCommerce 8.6.1
-		 */
-		add_filter( 'woocommerce_order_needs_payment', '__return_false', 100, 0 );
 	}
 
 	/**
@@ -1386,33 +1491,66 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 
 		$this->validate_request( $_GET, '', true, $order_id );
 
+		$this->handle_concurrency( $_GET );
+
 		$order = false;
 
 		if ( $order_id ) {
 			$order = wc_get_order( $order_id );
 
-			if ( $order && ! $order->has_status( [ 'processing', 'completed' ] ) && $order->get_meta( '_wc_paytrail_payment_completed', true ) !== 'yes' ) {
+			if ( $order && $order->get_meta( '_wc_paytrail_payment_completed', true ) !== 'yes' ) {
 				$status = filter_input( INPUT_GET, 'checkout-status' );
 				$txn_id = filter_input( INPUT_GET, 'checkout-transaction-id' );
 				$provider = filter_input( INPUT_GET, 'checkout-provider' );
 				$provider_title = $this->get_provider_title( $provider );
 
+				if ( in_array( $status, [ 'ok', 'pending', 'delayed' ], true ) ) {
+					$order->update_meta_data( '_wc_paytrail_version', WC_PAYTRAIL_VERSION );
+					$order->update_meta_data( '_wc_paytrail_provider_title', $provider_title );
+					$order->update_meta_data( '_wc_paytrail_provider_id', $provider );
+					$order->update_meta_data( '_wc_paytrail_transaction_id', $txn_id );
+				}
+
 				if ( $status === 'ok' ) {
 					$order->update_meta_data( '_wc_paytrail_payment_completed', 'yes' );
-					$order->update_meta_data( '_wc_paytrail_version', WC_PAYTRAIL_VERSION );
 
 					$order->payment_complete( $txn_id );
 					$order->add_order_note( sprintf( __( 'Paytrail payment completed with %s. Transaction ID: %s', 'wc-paytrail' ), $provider_title, $txn_id ) );
 
 					WC()->cart->empty_cart();
-				} else if ( $status === 'pending' || $status === 'delayed' ) {
-					$order->update_status( 'on-hold', __( 'Awaiting payment', 'wc-paytrail' ) );
-					$order->add_order_note( sprintf( __( 'Paytrail payment PENDING with %s. Transaction ID: %s', 'wc-paytrail' ), $provider_title, $txn_id ) );
+				} else if ( $status === 'pending' ) {
+					$order_status = 'on-hold';
+					$note = sprintf( __( 'Paytrail payment PENDING with %s. Transaction ID: %s', 'wc-paytrail' ), $provider_title, $txn_id );
+
+					// Manual invoice capture
+					if ( $this->is_capturable( $order ) ) {
+						$order->update_meta_data( '_paytrail_ppa_invoice_manual_capture', 'pending' );
+						$order->set_transaction_id( $txn_id );
+
+						$note = sprintf( __( 'Pending %s invoice capture. Transaction ID: %s', 'wc-paytrail' ), $provider_title, $txn_id );
+						$order_status = $this->invoice_capture_initial_status;
+					}
+
+					$order->update_status( $order_status, $note );
 
 					wc_maybe_reduce_stock_levels( $order_id );
 
 					WC()->cart->empty_cart();
+				} else if ( $status === 'delayed' ) {
+					$order->update_status( 'on-hold', sprintf( __( 'Paytrail payment DELAYED with %s. Transaction ID: %s', 'wc-paytrail' ), $provider_title, $txn_id ) );
+
+					wc_maybe_reduce_stock_levels( $order_id );
+
+					WC()->cart->empty_cart();
+				} else if ( $status === 'fail' ) {
+					// Mark manual capture as failed
+					if ( $this->is_capturable( $order ) ) {
+						$order->update_meta_data( '_paytrail_ppa_invoice_manual_capture', 'failed' );
+					}
+
+					$order->update_status( 'failed', sprintf( __( 'Paytrail payment FAILED with %s. Transaction ID: %s', 'wc-paytrail' ), $provider_title, $txn_id ) );
 				} else {
+					// We should not get to this point but nevertheless handle unknown statuses
 					$order->update_status( 'failed' );
 				}
 			}
@@ -1455,8 +1593,29 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			$url = $this->get_return_url( $order );
 		}
 
+		// Release order lock
+		$this->release_lock( $_GET );
+
 		wp_redirect( $url );
 		exit;
+	}
+
+	/**
+	 * Check if order is capturable
+	 * 
+	 * @param WC_Order $order
+	 * 
+	 * @return bool
+	 */
+	public function is_capturable( $order ) {
+		$methods = [ 'walleyb2c', 'walleyb2b', 'klarna' ];
+		$provider_id = $order->get_meta( '_wc_paytrail_provider_id' );
+		$status = $order->get_meta( '_paytrail_ppa_invoice_manual_capture' );
+
+		$is_invoice_method = in_array( $provider_id, $methods, true );
+		$is_capturable = ! empty( $status );
+
+		return $is_invoice_method && $is_capturable;
 	}
 
 	/**
@@ -1688,6 +1847,73 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 
 		return false;
 	}
+
+	/**
+	 * Handle concurrency
+	 * 
+	 * If the request is currently being processed in another
+	 * thread, wait for a while to allow it to complete
+	 * 
+	 * This is a simple database based locking mechanism. We use direct
+	 * DB queries instead of transients or options API since both introduce
+	 * overhead. With a single DB query it's fast enough to handle
+	 * duplicate requests within milliseconds
+	 */
+	public function handle_concurrency( $params ) {
+		if ( ! isset( $params['checkout-stamp'] ) ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$option_name = 'wc_paytrail_conc_' . $params['checkout-stamp'];
+
+		for ( $attempts = 0; $attempts < 10; $attempts++ ) {
+			$acquired = $wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$wpdb->options} (option_name, option_value, autoload) 
+					VALUES (%s, %d, 'no')",
+					$option_name,
+					time()
+				)
+			);
+
+			// If we acquired the lock, break out to continue
+			// processing
+			if ( $acquired ) {
+				break;
+			}
+
+			// Otherwise wait for 1 second and try again
+			sleep( 1 );
+		}
+
+		/**
+		 * In total we will wait 10 * 1 = 10 seconds. If we fail
+		 * to acquire the lock, we will indicate it with false.
+		 * However, in the calling function we will proceed
+		 * nevertheless since in that case it's likely there
+		 * have been some error and lock was just not released
+		 */
+		return (bool) $acquired;
+	}
+
+	/**
+	 * Release lock
+	 */
+	public function release_lock( $params ) {
+		if ( ! isset( $params['checkout-stamp'] ) ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$option_name = 'wc_paytrail_conc_' . $params['checkout-stamp'];
+		$wpdb->delete( $wpdb->options, [
+			'option_name' => $option_name
+		] );
+	}
+
 
 	/**
 	 * Get order ID by stamp
@@ -1925,10 +2151,90 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			}
 		}
 
+		$body = apply_filters( 'wc_paytrail_ppa_refund_args', $body, $refund, $order );
+
 		$refund->update_meta_data( '_wc_paytrail_refund_body', $body );
 		$refund->save();
 
 		return $body;
+	}
+
+	/**
+	 * Process invoice capture
+	 * 
+	 * @param WC_Order $order
+	 * 
+	 * @return bool|WP_Error
+	 */
+	public function process_capture_invoice( $order ) {
+		$provider = $order->get_meta( '_wc_paytrail_provider_title' );
+
+		$result = $this->capture_invoice( $order );
+
+		if ( $result === true ) {
+			$order->update_meta_data( '_paytrail_ppa_invoice_manual_capture', 'captured' );
+			$order->update_meta_data( '_paytrail_ppa_invoice_manual_captured_at', time() );
+			$order->save();
+
+			$order->add_order_note( sprintf( __( 'Captured %s invoice', 'wc-paytrail' ), $provider ), false, true );
+
+			do_action( 'wc_paytrail_captured_invoice', $order, $this );
+
+			return true;
+		}
+
+		$order->add_order_note( sprintf( __( 'Failed to capture %s invoice: %s (%s)', 'wc-paytrail' ), $provider, $result->get_error_message(), $result->get_error_code() ), false, true );
+
+		return $result;
+	}
+
+	/**
+	 * Capture invoice
+	 * 
+	 * @return bool|WP_Error
+	 */
+	protected function capture_invoice( $order ) {
+		$capture = $order->get_meta( '_paytrail_ppa_invoice_manual_capture' );
+		$txn_id = $order->get_meta( '_wc_paytrail_transaction_id' );
+
+		if ( empty( $capture ) ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order not capturable.', 'wc-paytrail' ) );
+		}
+
+		if ( $capture === 'captured' ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order already captured.', 'wc-paytrail' ) );
+		}
+
+		if ( empty( $txn_id ) ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order does not have transaction ID.', 'wc-paytrail' ) );
+		}
+
+		$headers = [
+			'checkout-transaction-id' => $txn_id,
+		];
+
+		$response = $this->request( "payments/{$txn_id}/activate-invoice", 'POST', '', [], $headers, $order->get_id(), false );
+
+		if ( ! is_wp_error( $response ) ) {
+			$code = (string) wp_remote_retrieve_response_code( $response );
+			$raw_body = wp_remote_retrieve_body( $response );
+			$body = json_decode( $raw_body );
+			$status = isset( $body->status ) ? $body->status : false;
+
+			if ( $code === '200' && $status === 'ok' ) {
+				return true;
+			}
+
+			$error = sprintf( '%s - %s', $code, $raw_body );
+			if ( isset( $body->message ) && ! empty( $body->message ) ) {
+				$error = $body->message;
+			}
+
+			return new WP_Error( 'wc_paytrail_capture_error', $error );
+		}
+
+		// Return HTTP response WP_Error
+		return $response;
 	}
 
 	/**
@@ -2053,7 +2359,8 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 		}
 
 		$providers = [
-			'apple_pay' => 'Apple Pay',
+			'apple_pay' => 'Apple Pay', // legacy Apple Pay
+			'apple-pay' => 'Apple Pay', // current Apple Pay
 			'osuuspankki' => 'OP',
 			'nordea' => 'Nordea',
 			'handelsbanken' => 'Handelsbanken',
@@ -2067,6 +2374,8 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			'amex' => 'American Express',
 			'collectorb2c' => 'Collector',
 			'collectorb2b' => 'Collector B2B',
+			'walleyb2c' => 'Walley B2C',
+			'walleyb2b' => 'Walley B2B',
 			'pivo' => 'Pivo',
 			'mobilepay' => 'MobilePay',
 			'siirto' => 'Siirto',

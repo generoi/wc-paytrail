@@ -1,3 +1,27 @@
+2.7.0 (16.12.2025)
+
+* Lisätty mahdollisuus aktivoida laskut jälkikäteen (**WooCommerce > Asetukset > Maksut > Paytrail > Laskut (Walley & Klarna)**)
+* Parannettu maksukuittausten käsittelyä. Aikaisemmin hyvin harvoissa tapauksissa tuotteiden varastosaldot saattoivat vähentyä kahdesti
+* Kehittäjille: lisätty **wc_paytrail_ppa_refund_args** hook, jolla voi muokata maksunpalautuksen tietoja koneellisesti
+
+2.6.6 (11.6.2025)
+
+* Lisätty valittu maksutapa näkyville ylläpitoon, sähköposteihin ja Oma tili -sivuille
+* Parannettu saavutettavuutta (WCAG) saavutettavuusdirektiiviä varten
+
+2.6.5 (3.4.2025)
+
+* Lisätty tuki uudelle Apple Paylle, missä maksu viimeistellään Paytrailin puolella
+
+2.6.4 (8.1.2025)
+
+* Parannettu Apple Payn verifiointitiedoston automaattista lisäystä
+
+2.6.3 (26.11.2024)
+
+* Lisätty Walleyn uudet maksutapa-ID:t
+* Parannettu yhteensopivuutta Wordfencen kanssa
+
 2.6.2 (31.7.2024)
 
 * Parannettu alv-kannan laskentaa tarkemmaksi. Aikaisemmin jos pyöristys oli rivitasolla eikä yhdellä kertaa (**WooCommerce > Asetukset > Verot > Veroasetukset > Pyöristys**), niin veroprosentiksi saattoi tulla 23,9 % tai 24,1 % pienille summille. Jatkossa laskenta toimii em. asetuksesta riippumatta myös pienille summille

@@ -1,3 +1,7 @@
+2.7.1 (20.1.2026)
+
+* Korjattu bugi, joka aiheutti ei-kriittisen varoituksen lokeihin tietyissä tapauksissa
+
 2.7.0 (16.12.2025)
 
 * Lisätty mahdollisuus aktivoida laskut jälkikäteen (**WooCommerce > Asetukset > Maksut > Paytrail > Laskut (Walley & Klarna)**)

@@ -1871,7 +1871,7 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 		for ( $attempts = 0; $attempts < 10; $attempts++ ) {
 			$acquired = $wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO {$wpdb->options} (option_name, option_value, autoload) 
+					"INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) 
 					VALUES (%s, %d, 'no')",
 					$option_name,
 					time()

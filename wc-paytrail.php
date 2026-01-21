@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Paytrail
 Plugin URI:  https://markup.fi
 Description: Paytrail payment gateway integration for WooCommerce.
-Version:     2.7.0
+Version:     2.7.1
 Author:      Lauri Karisola / Markup.fi
 Author URI:  https://markup.fi
 Text Domain: wc-paytrail
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Plugin version
  */
 if ( ! defined( 'WC_PAYTRAIL_VERSION' ) ) {
-	define( 'WC_PAYTRAIL_VERSION', '2.7.0' );
+	define( 'WC_PAYTRAIL_VERSION', '2.7.1' );
 }
 
 /**

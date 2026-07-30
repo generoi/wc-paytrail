@@ -1,3 +1,15 @@
+2.7.4 (9.4.2026)
+
+* Korjattu edellisessä versiossa tullut bugi, joka esti lohkoeditorin käytön
+
+2.7.3 (8.4.2026)
+
+* Parannettu kassan suorituskykyä välimuistittamalla saatavilla olevat Paytrailin maksutavat
+
+2.7.2 (26.3.2026)
+
+* Lisätty mahdollisuus peruuttaa Klarnan lasku. Aktivoimaton lasku peruuntuu automaattisesti 28 päivän kuluttua, mutta jos tilaus peruutetaan aikaisemmin, on suositeltavaa peruuttaa lasku ylläpidosta heti peruutuksen yhteydessä
+
 2.7.1 (20.1.2026)
 
 * Korjattu bugi, joka aiheutti ei-kriittisen varoituksen lokeihin tietyissä tapauksissa

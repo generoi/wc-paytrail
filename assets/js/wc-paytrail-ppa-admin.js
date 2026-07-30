@@ -104,26 +104,40 @@ jQuery(document).ready(function ($) {
    */
   var wcPaytrailInvoice = {
     init: function() {
-      this.triggerCapture();
+      this.triggerProcess();
     },
 
     /**
-     * Trigger capture
+     * Trigger invoice process
      */
-    triggerCapture: function() {
+    triggerProcess: function() {
       var self = this;
 
-      $( document ).on( 'click', 'a#wc-paytrail-capture-order', function( e ) {
+      $( document ).on( 'click', 'a.wc-paytrail-process-invoice', function( e ) {
         e.preventDefault();
 
-        self.capture( $( this ).data( 'url' ), $( this ).data( 'order-id') );
+        if ( $( this ).hasClass( 'disabled' ) ) {
+          return;
+        }
+
+        let confirmText = $( this ).data( 'confirm' );
+        if ( confirmText ) {
+          if ( confirm( confirmText ) ) {
+            self.process( $( this ) );
+          }
+        } else {
+          self.process( $( this ) );
+        }
       } );
     },
 
     /**
-     * Capture invoice via AJAX
+     * Process invoice via AJAX
      */
-    capture: function( url, orderId ) {
+    process: function( element ) {
+      let url = element.data( 'url' );
+      let orderId = element.data( 'order-id' );
+
       jQuery.ajax({
         url: url,
         data: {
@@ -134,22 +148,23 @@ jQuery(document).ready(function ($) {
           $( '.wc-paytrail-throbber' ).remove();
           $( '.wc-paytrail-error' ).remove();
 
-          $( '.wc-paytrail-label' ).after( '<span class="wc-paytrail-throbber processing"></span>' );
-          $( '#wc-paytrail-capture-order' ).hide();
+          $( 'a.wc-paytrail-process-invoice' ).addClass( 'disabled' );
+
+          $( '.wc-paytrail-invoice-status p' ).append( '<span class="wc-paytrail-throbber processing"></span>' );
         },
         success: function( response ) {
           $( '.wc-paytrail-throbber' ).remove();
 
           $( '.wc-paytrail-invoice-status' ).replaceWith( response.html );
 
-          $( '.wc-paytrail-invoice-status .wc-paytrail-label' ).after( '<span class="wc-paytrail-throbber ok"><span class="dashicons dashicons-yes"></span></span>' );
+          $( '.wc-paytrail-invoice-status p' ).append( '<span class="wc-paytrail-throbber ok"><span class="dashicons dashicons-yes"></span></span>' );
         },
         error: function( response ) {
           $( '.wc-paytrail-throbber' ).remove();
 
-          $( '#wc-paytrail-capture-order' ).show();
+          $( 'a.wc-paytrail-process-invoice' ).removeClass( 'disabled' );
 
-          $( '#wc-paytrail-capture-order' ).after( '<span class="wc-paytrail-error"><span class="dashicons dashicons-no"></span>' + response.responseJSON.msg + '</span>' );
+          $( '.wc-paytrail-invoice-status p' ).append( '<span class="wc-paytrail-error"><span class="dashicons dashicons-no"></span>' + response.responseJSON.msg + '</span>' );
         },
         complete: function() {
         }

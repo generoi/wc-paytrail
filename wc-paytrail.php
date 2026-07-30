@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Paytrail
 Plugin URI:  https://markup.fi
 Description: Paytrail payment gateway integration for WooCommerce.
-Version:     2.7.1
+Version:     2.7.4
 Author:      Lauri Karisola / Markup.fi
 Author URI:  https://markup.fi
 Text Domain: wc-paytrail
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Plugin version
  */
 if ( ! defined( 'WC_PAYTRAIL_VERSION' ) ) {
-	define( 'WC_PAYTRAIL_VERSION', '2.7.1' );
+	define( 'WC_PAYTRAIL_VERSION', '2.7.4' );
 }
 
 /**
@@ -93,8 +93,8 @@ class Markup_Paytrail {
 		// Display settlement reference in the order details
 		add_action( 'woocommerce_admin_order_data_after_billing_address', [ $this, 'display_settlement_ref' ], 10, 1 );
 
-		// Capture invoice through user action
-		add_action( 'wp_ajax_paytrail_capture_invoice', [ $this, 'ajax_capture_invoice' ] );
+		// Process invoice through user action
+		add_action( 'wp_ajax_paytrail_process_invoice', [ $this, 'ajax_process_invoice' ] );
 
 		// Capture invoice based on status change
 		add_action( 'woocommerce_order_status_changed', [ $this, 'maybe_capture_invoice' ], 10, 4 );
@@ -666,9 +666,19 @@ class Markup_Paytrail {
 		$status = $order->get_meta( '_paytrail_ppa_invoice_manual_capture' );
 
 		$capture_url = add_query_arg( [
-			'action' => 'paytrail_capture_invoice',
-			'nonce' => wp_create_nonce( 'paytrail_capture_invoice' ),
+			'action' => 'paytrail_process_invoice',
+			'invoice_action' => 'capture',
+			'nonce' => wp_create_nonce( 'paytrail_process_invoice' ),
 		], admin_url( 'admin-ajax.php' ) );
+
+		$cancel_url = false;
+		if ( $gateway->is_invoice_cancelable( $order ) ) {
+			$cancel_url = add_query_arg( [
+				'action' => 'paytrail_process_invoice',
+				'invoice_action' => 'cancel',
+				'nonce' => wp_create_nonce( 'paytrail_process_invoice' ),
+			], admin_url( 'admin-ajax.php' ) );
+		}
 
 		ob_start();
 
@@ -684,11 +694,11 @@ class Markup_Paytrail {
 	}
 
 	/**
-	 * Capture invoice through AJAX request
+	 * Process invoice through AJAX request
 	 */
-	public function ajax_capture_invoice() {
+	public function ajax_process_invoice() {
 		$nonce = $_GET['nonce'];
-		if ( ! wp_verify_nonce( $nonce, 'paytrail_capture_invoice' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'paytrail_process_invoice' ) ) {
 			wp_send_json( [
 				'status' => 'error',
 				'msg' => __( 'Permission denied', 'wc-paytrail' ),
@@ -713,17 +723,30 @@ class Markup_Paytrail {
 				'status' => 'error',
 				'msg' => __( 'Order not found', 'wc-paytrail' ),
 			], 422 );
+			die;
 		}
 
 		$gateway = self::get_gateway();
-		$result = $gateway->process_capture_invoice( $order );
+
+		$action = isset( $_GET['invoice_action'] ) ? $_GET['invoice_action'] : false;
+		if ( $action === 'capture' ) {
+			$result = $gateway->process_capture_invoice( $order );
+		} else if ( $action === 'cancel' ) {
+			$result = $gateway->process_cancel_invoice( $order );
+		} else {
+			wp_send_json( [
+				'status' => 'error',
+				'msg' => sprintf( __( 'Invalid action: %s', 'wc-paytrail' ), $action )
+			], 422 );
+			die;
+		}
 
 		if ( $result === true ) {
 			$output = $this->display_invoice_status( $order, false );
 
 			wp_send_json( [
 				'status' => 'ok',
-				'msg' => __( 'Invoice captured successfully.', 'wc-paytrail' ),
+				'msg' => '',
 				'html' => $output,
 			], 200 );
 		}
@@ -766,6 +789,11 @@ class Markup_Paytrail {
 
 		// Check that we haven't captured the order already
 		if ( $order->get_meta( '_paytrail_ppa_invoice_manual_capture' ) === 'captured' ) {
+			return;
+		}
+
+		# Check that we haven't canceled the invoice
+		if ( $order->get_meta( '_paytrail_ppa_invoice_manual_capture' ) === 'canceled' ) {
 			return;
 		}
 

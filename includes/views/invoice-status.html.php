@@ -12,9 +12,25 @@
                 data-url="<?php echo esc_url( $capture_url ); ?>"
                 data-order-id="<?php echo esc_attr( $order->get_id() ); ?>" 
                 id="wc-paytrail-capture-order"
+                class="button button-primary wc-paytrail-process-invoice"
             >
-                    <?php esc_html_e( 'Capture now &raquo;', 'wc-paytrail' ); ?>
+                    <?php esc_html_e( 'Capture', 'wc-paytrail' ); ?>
             </a>
+
+            <?php if ( $cancel_url ) { ?>
+                <a
+                    href="#"
+                    data-url="<?php echo esc_url( $cancel_url ); ?>"
+                    data-order-id="<?php echo esc_attr( $order->get_id() ); ?>" 
+                    id="wc-paytrail-cancel-order"
+                    class="button wc-paytrail-process-invoice"
+                    data-confirm="<?php esc_attr_e( 'Are you sure you want to cancel the invoice? Canceled invoice cannot be captured.', 'wc-paytrail' ); ?>"
+                >
+                        <?php esc_html_e( 'Cancel', 'wc-paytrail' ); ?>
+                </a>
+            <?php } ?>
+        <?php } else if ( $status === 'canceled' ) { ?>
+            <span class="wc-paytrail-label"><?php esc_html_e( 'Canceled', 'wc-paytrail' ); ?></span>
         <?php } else if ( $status === 'failed' ) { ?>
             <span class="wc-paytrail-label wc-paytrail-label-error"><?php esc_html_e( 'Failed', 'wc-paytrail' ); ?></span>
         <?php } else { ?>

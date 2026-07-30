@@ -454,6 +454,21 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			return $this->providers;
 		}
 
+		if ( WC()->session ) {
+			$cache = WC()->session->get( 'wc_paytrail_providers' );
+			if (
+				! empty( $cache ) &&
+				isset( $cache['providers'] ) &&
+				! empty( $cache['providers'] ) &&
+				$cache['amount'] === $amount &&
+				$cache['merchant_id'] === $this->get_merchant_id()
+			) {
+				$this->providers = $cache['providers'];
+
+				return $this->providers;
+			}
+		}
+
 		// Make request
 		$url = sprintf( 'merchants/grouped-payment-providers?amount=%s&language=%s', $amount, $this->get_language() );
 		$response = $this->request( $url, 'GET', '', [], [], null, false );
@@ -466,6 +481,14 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 				$body_obj = json_decode( $body );
 
 				$this->providers = $body_obj;
+
+				if ( WC()->session ) {
+					WC()->session->set( 'wc_paytrail_providers', [
+						'merchant_id' => $this->get_merchant_id(),
+						'amount' => $amount,
+						'providers' => $this->providers
+					] );
+				}
 
 				return $this->providers;
 			}
@@ -1619,6 +1642,20 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 	}
 
 	/**
+	 * Check if order invoice is cancelable
+	 * 
+	 * @param WC_Order $order
+	 * 
+	 * @return bool
+	 */
+	public function is_invoice_cancelable( $order ) {
+		$provider_id = $order->get_meta( '_wc_paytrail_provider_id' );
+		$status = $order->get_meta( '_paytrail_ppa_invoice_manual_capture' );
+
+		return $provider_id === 'klarna' && $status === 'pending';
+	}
+
+	/**
 	 * Complete tokenization
 	 */
 	public function complete_tokenization() {
@@ -2213,7 +2250,7 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			'checkout-transaction-id' => $txn_id,
 		];
 
-		$response = $this->request( "payments/{$txn_id}/activate-invoice", 'POST', '', [], $headers, $order->get_id(), false );
+		$response = $this->request( "payments/{$txn_id}/capture-order", 'POST', '', [], $headers, $order->get_id(), false );
 
 		if ( ! is_wp_error( $response ) ) {
 			$code = (string) wp_remote_retrieve_response_code( $response );
@@ -2222,6 +2259,88 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			$status = isset( $body->status ) ? $body->status : false;
 
 			if ( $code === '200' && $status === 'ok' ) {
+				return true;
+			}
+
+			$error = sprintf( '%s - %s', $code, $raw_body );
+			if ( isset( $body->message ) && ! empty( $body->message ) ) {
+				$error = $body->message;
+			}
+
+			return new WP_Error( 'wc_paytrail_capture_error', $error );
+		}
+
+		// Return HTTP response WP_Error
+		return $response;
+	}
+
+	/**
+	 * Process invoice cancellation
+	 * 
+	 * @param WC_Order $order
+	 * 
+	 * @return bool|WP_Error
+	 */
+	public function process_cancel_invoice( $order ) {
+		$provider = $order->get_meta( '_wc_paytrail_provider_title' );
+
+		$result = $this->cancel_invoice( $order );
+
+		if ( $result === true ) {
+			$order->update_meta_data( '_paytrail_ppa_invoice_manual_capture', 'canceled' );
+			$order->update_meta_data( '_paytrail_ppa_invoice_manual_canceled_at', time() );
+			$order->save();
+
+			$order->add_order_note( sprintf( __( 'Canceled %s invoice', 'wc-paytrail' ), $provider ), false, true );
+
+			do_action( 'wc_paytrail_canceled_invoice', $order, $this );
+
+			return true;
+		}
+
+		$order->add_order_note( sprintf( __( 'Failed to cancel %s invoice: %s (%s)', 'wc-paytrail' ), $provider, $result->get_error_message(), $result->get_error_code() ), false, true );
+
+		return $result;
+	}
+
+	/**
+	 * Cancel invoice
+	 * 
+	 * @return bool|WP_Error
+	 */
+	protected function cancel_invoice( $order ) {
+		$capture = $order->get_meta( '_paytrail_ppa_invoice_manual_capture' );
+		$txn_id = $order->get_meta( '_wc_paytrail_transaction_id' );
+
+		if ( empty( $capture ) ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order not capturable.', 'wc-paytrail' ) );
+		}
+
+		if ( $capture === 'captured' ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order already captured.', 'wc-paytrail' ) );
+		}
+
+		if ( $capture === 'canceled' ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order already canceled.', 'wc-paytrail' ) );
+		}
+
+		if ( empty( $txn_id ) ) {
+			return new WP_Error( 'wc_paytrail_capture_error', __( 'Order does not have transaction ID.', 'wc-paytrail' ) );
+		}
+
+		$headers = [
+			'checkout-transaction-id' => $txn_id,
+		];
+
+		$response = $this->request( "payments/{$txn_id}/cancel-order", 'POST', '', [], $headers, $order->get_id(), false );
+
+		if ( ! is_wp_error( $response ) ) {
+			$code = (string) wp_remote_retrieve_response_code( $response );
+			$raw_body = wp_remote_retrieve_body( $response );
+			$body = json_decode( $raw_body );
+			$status = isset( $body->status ) ? $body->status : false;
+
+			if ( in_array( $code, [ '200', '201', '202'], true ) && $status === 'ok' ) {
 				return true;
 			}
 
@@ -2376,6 +2495,7 @@ class WC_Gateway_Paytrail_Ppa extends WC_Payment_Gateway {
 			'collectorb2b' => 'Collector B2B',
 			'walleyb2c' => 'Walley B2C',
 			'walleyb2b' => 'Walley B2B',
+			'klarna' => 'Klarna',
 			'pivo' => 'Pivo',
 			'mobilepay' => 'MobilePay',
 			'siirto' => 'Siirto',
